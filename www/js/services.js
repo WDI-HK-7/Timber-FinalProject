@@ -1,5 +1,52 @@
 angular.module('starter.services', [])
 
+
+.factory('Items', function() {
+  var items = [{
+    id: 0,
+    itemName: 'ABC',
+    itemDescription: 'ABC description',
+    picture: '../../img/Wilson1.jpg'
+  }, {
+    id: 1,
+    itemName: 'DEF',
+    itemDescription: 'DEF description',
+    picture: '../../img/Wilson2.jpg'
+  }, {
+    id: 2,
+    itemName: 'GHI',
+    itemDescription: 'GHI description',
+    picture: '../../img/Wilson14.jpg'
+  }, {
+    id: 3,
+    itemName: 'JKL',
+    itemDescription: 'JKL description',
+    picture: '../../img/Wilson22.jpg'
+  }, {
+    id: 4,
+    itemName: 'MNO',
+    itemDescription: 'MNO description',
+    picture: '../../img/Wilson3.jpg'
+  }, {
+    id: 5,
+    itemName: 'PQR',
+    itemDescription: 'PQR description',
+    picture: '../../img/Wilson4.jpg'
+  }, {
+    id: 6,
+    itemName: 'WST',
+    itemDescription: 'WST description',
+    picture: '../../img/Wilson5.jpg'
+  }];
+
+  return{
+    allitems: function() {
+      return items;
+    }
+  };
+})
+
+
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 
