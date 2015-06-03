@@ -1,7 +1,18 @@
 angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
 
-.controller('ProfileCtrl', function($scope, Items) {
+.controller('ProfileCtrl', function($scope, Items, $location) {
   $scope.items = Items.allitems();
+  $scope.toYourItem = function(index){
+    $location.path('/profile/'+ index);
+  }
+})
+
+.controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams) {
+  $scope.items = Items.allitems();
+  $scope.matchId = $stateParams.itemsId;
+  $scope.DisplayMatch = function($stateParams){
+    $stateParams.itemsId
+  }
 })
 
 .controller('SwipeCtrl', function($scope) {})
@@ -17,7 +28,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('MatchesCtrl', function($scope, Items, $location, $stateParams) {
+.controller('MatchesCtrl', function($scope, Items, $location) {
   $scope.items = Items.allitems();
   $scope.toMatch = function(index){
     $location.path('/matches/'+ index);
@@ -29,6 +40,9 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
   $scope.matchId = $stateParams.itemsId;
   $scope.DisplayMatch = function($stateParams){
     $stateParams.itemsId
+  }
+  $scope.ToChats = function(){
+    $location.path('/chats');
   }
 })
 

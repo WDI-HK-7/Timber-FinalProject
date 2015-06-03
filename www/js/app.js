@@ -23,6 +23,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       controller: 'MatchCtrl'
   })
 
+  .state('itemprofile', {
+    url: "/profile/:itemsId",
+      templateUrl: "templates/item-profile.html",
+      controller: 'YourItemProfileCtrl'
+  })
+
   .state('tab', {
     url: "/tab",
     abstract: true,
