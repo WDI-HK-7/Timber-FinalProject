@@ -11,10 +11,16 @@
       </td-card>
     </td-cards>
 
-    <span>
-    <img ng-src="../../img/cross.jpeg" width="100px" height="100px">
-    <img ng-src="../../img/heart.png" width="100px" height="100px">
-    </span>
+    <div class="LikeOrDislike" ng-controller="PopupCtrl">
+      <span>
+      <button class="button button-light">
+        <img ng-src="../../img/cross.jpeg" width="100px" height="100px">
+      </button>
+      <button class="button button-light" ng-click="showPopup()">
+        <img ng-src="../../img/heart.png" width="100px" height="100px">
+      </span>
+      </button>
+    </div>
 
   </ion-content>
 </ion-view>

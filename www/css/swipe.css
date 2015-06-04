@@ -5,7 +5,7 @@ td-cards {
 td-card {
   position: absolute;
   left: 50%;
-  margin-top: 80px;
+  margin-top: 35px;
   margin-bottom: 40px;
   margin-left: -150px;
   width: 300px;
@@ -46,4 +46,29 @@ td-card img {
   -webkit-transition: 0.2s opacity linear;
   transition: 0.2s opacity linear;
   opacity: 0;
+}
+
+.LikeOrDislike{
+  position: absolute;
+  margin-top: 400px;
+  margin-bottom: 40px;
+  margin-left: 75px;
+}
+
+.popup-container .popup {
+  width: 250px
+}
+
+.popup{
+  margin-top: 35px;
+  width: 400px !important;
+  height: 500px;
+}
+
+.popup-title {
+  font-size:30px;
+}
+
+.popup-head {
+  height: 430px;
 }

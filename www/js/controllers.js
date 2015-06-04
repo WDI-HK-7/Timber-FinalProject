@@ -4,7 +4,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
   $scope.items = Items.allitems();
 
   $scope.toYourItem = function(index){
-    $location.path('/profile/'+ index);
+    $location.path('/tab/profile/'+ index);
   }
 
   // $scope.loginData = {};
@@ -30,6 +30,43 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
     // }, 1000);
   }
 
+})
+
+.controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
+
+$scope.showPopup = function() {
+  $scope.data = {}
+
+  var myPopup = $ionicPopup.show({
+    // template: '<input type="password" ng-model="data.wifi">',
+    title: 'There is a Match',
+    subTitle: 'Please use normal things',
+    scope: $scope,
+    buttons: [
+      { text: 'Cancel',
+        type: 'button-assertive button-block'
+      },
+      {
+        text: '<b>Save</b>',
+        type: 'button-positive button-block',
+        onTap: function(e) {
+          if (!$scope.data.wifi) {
+            e.preventDefault();
+          } else {
+            return $scope.data.wifi;
+          }
+        }
+      }
+    ]
+  });
+
+  myPopup.then(function(res) {
+    console.log('Tapped!', res);
+  });
+  // $timeout(function() {
+  //    myPopup.close(); 
+  // }, 3000);
+  };
 })
 
 .controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal) {
@@ -92,7 +129,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
 .controller('MatchesCtrl', function($scope, Items, $location) {
   $scope.items = Items.allitems();
   $scope.toMatch = function(index){
-    $location.path('/matches/'+ index);
+    $location.path('tab/matches/'+ index);
   }
 })
 
@@ -103,7 +140,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
     $stateParams.itemsId
   }
   $scope.ToChats = function(){
-    $location.path('/chats');
+    $location.path('tab/chats');
   }
 })
 

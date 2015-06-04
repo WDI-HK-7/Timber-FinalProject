@@ -17,17 +17,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   $stateProvider
 
-  .state('match', {
-    url: "/matches/:itemsId",
-      templateUrl: "templates/match.html",
-      controller: 'MatchCtrl'
-  })
 
-  .state('itemprofile', {
-    url: "/profile/:itemsId",
-      templateUrl: "templates/item-profile.html",
-      controller: 'YourItemProfileCtrl'
-  })
 
   .state('tab', {
     url: "/tab",
@@ -45,6 +35,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   })
 
+  .state('tab.itemprofile', {
+  // .state('itemprofile', {
+    url: "/profile/:itemsId",
+    views: {
+      'tab-profile':{
+        templateUrl: "templates/item-profile.html",
+        controller: 'YourItemProfileCtrl'
+      }
+    }
+  })
+  
   .state('tab.chats', {
     url: '/chats',
     views: {
@@ -81,6 +82,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       'tab-matches': {
         templateUrl: 'templates/tab-matches.html',
         controller: 'MatchesCtrl'
+      }
+    }
+  })
+
+  .state('tab.match', {
+  // .state('match', {
+    url: "/matches/:itemsId",
+    views: {
+      'tab-matches':{
+        templateUrl: "templates/match.html",
+        controller: 'MatchCtrl'
       }
     }
   });
