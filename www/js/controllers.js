@@ -1,9 +1,33 @@
 angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
 
-.controller('ProfileCtrl', function($scope, Items, $location) {
+.controller('ProfileCtrl', function($scope, Items, $location, $ionicModal) {
   $scope.items = Items.allitems();
+
   $scope.toYourItem = function(index){
     $location.path('/profile/'+ index);
+  }
+
+  $scope.loginData = {};
+
+  $ionicModal.fromTemplateUrl('templates/new-item.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  })
+
+  $scope.login = function() {
+    $scope.modal.show();
+  }
+
+  $scope.closeLogin = function() {
+    $scope.modal.hide();
+  }
+  
+  $scope.doLogin = function() {
+    console.log('Doing login', $scope.loginData);
+    $timeout(function() {
+      $scope.closeLogin();
+    }, 1000);
   }
 })
 

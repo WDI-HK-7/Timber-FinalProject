@@ -1,25 +1,11 @@
-<ion-view view-title="Profile">
+<ion-view view-title="My Items">
   <ion-content class="padding">
 
-  <div class="list">
+  <button class="button button-calm button-block" ng-click="login()">
+    Add New Item
+  </button>
 
-    <div class="list list-inset">
-      <label class="item item-input">
-        <input type="text" placeholder="Item Name">
-      </label>
-      <label class="item item-input">
-        <input type="text" placeholder="Item Description">
-      </label>
-      <br>
-      <button class="button button-stable">
-        Upload Item Image
-      </button>
-      <div class="col-offset-10">
-        <img ng-src="{{items[6].picture}}" width="320px" height="320px">
-      </div>
-    </div>
-    
-  </div>
+  <h3>Existing Items</h3>
 
   <div ng-repeat="item in items track by $index" ng-if="$index % 3 === 0">
     <div class="row">
