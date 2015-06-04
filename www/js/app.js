@@ -17,7 +17,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   $stateProvider
 
-    .state('tab', {
+  .state('match', {
+    url: "/matches/:itemsId",
+      templateUrl: "templates/match.html",
+      controller: 'MatchCtrl'
+  })
+
+  .state('tab', {
     url: "/tab",
     abstract: true,
     templateUrl: "templates/tabs.html"
