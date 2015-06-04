@@ -1,39 +1,24 @@
-<ion-view view-title="Profile">
+<ion-view view-title="My Items">
   <ion-content class="padding">
 
-  <div class="list">
-
-  <div class="list list-inset">
-  <label class="item item-input">
-    <input type="text" placeholder="Item Name">
-  </label>
-  <label class="item item-input">
-    <input type="text" placeholder="Item Description">
-  </label>
-  <br>
-  <button class="button button-stable">
-    Upload Item Image
+  <button class="button button-calm button-block" ng-click="addItem()">
+    Add New Item
   </button>
-  <div class="col col-10 col-offset-10">
-    <img ng-src="{{items[6].picture}}" width="320px" height="320px">
-  </div>
 
-</div>
-
-  </div>
+  <h3>Existing Items</h3>
 
   <div ng-repeat="item in items track by $index" ng-if="$index % 3 === 0">
     <div class="row">
       <div class="col col-33">
-        <img ng-src="{{items[$index].picture}}" width="140px" height="140px">
+        <img ng-src="{{items[$index].picture}}" width="140px" height="140px" ng-click="toYourItem($index)">
       </div>
 
       <div class="col col-33">
-        <img ng-src="{{items[$index+1].picture}}" width="140px" height="140px">
+        <img ng-src="{{items[$index+1].picture}}" width="140px" height="140px" ng-click="toYourItem($index+1)">
       </div>
 
       <div class="col col-33">
-        <img ng-src="{{items[$index+2].picture}}" width="140px" height="140px">
+        <img ng-src="{{items[$index+2].picture}}" width="140px" height="140px" ng-click="toYourItem($index+2)">
       </div>
     </div>
   </div>

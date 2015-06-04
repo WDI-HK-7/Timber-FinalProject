@@ -1,19 +1,20 @@
 <ion-view view-title="Swipe">
-  <ion-content class="padding">
- <!--    <ion-pane ng-controller="CardsCtrl">
-      <ion-header-bar class="bar-default">
-        <h1 class="title">TD Cards</h1>
-      </ion-header-bar>
+  <ion-content class="padding" ng-controller="CardsCtrl">
 
-      <td-cards>
-        <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
-          <div class="image" ng-controller="CardCtrl">
-            <div class="no-text">NOPE</div>
-            <img ng-src="{{card.image}}">
-            <div class="yes-text">LIKE</div>
-          </div>
-        </td-card>
-      </td-cards>
-    </ion-pane> -->
+    <td-cards>
+      <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
+        <div class="image" ng-controller="CardCtrl">
+          <div class="no-text">NOPE</div>
+          <img ng-src="{{card.image}}">
+          <div class="yes-text">LIKE</div>
+        </div>
+      </td-card>
+    </td-cards>
+
+    <span>
+    <img ng-src="../../img/cross.jpeg" width="100px" height="100px">
+    <img ng-src="../../img/heart.png" width="100px" height="100px">
+    </span>
+
   </ion-content>
 </ion-view>
