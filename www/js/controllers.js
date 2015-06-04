@@ -7,7 +7,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
     $location.path('/profile/'+ index);
   }
 
-  $scope.loginData = {};
+  // $scope.loginData = {};
 
   $ionicModal.fromTemplateUrl('templates/new-item.html', {
     scope: $scope
@@ -15,28 +15,65 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
     $scope.modal = modal;
   })
 
-  $scope.login = function() {
+  $scope.addItem = function() {
     $scope.modal.show();
   }
 
-  $scope.closeLogin = function() {
+  $scope.closeModalNewItem = function() {
     $scope.modal.hide();
   }
   
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
+  $scope.doSave = function() {
+    // console.log('Doing login', $scope.loginData);
+    // $timeout(function() {
+    //   $scope.closeLogin();
+    // }, 1000);
   }
+
 })
 
-.controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams) {
+.controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal) {
   $scope.items = Items.allitems();
   $scope.matchId = $stateParams.itemsId;
+
   $scope.DisplayMatch = function($stateParams){
     $stateParams.itemsId
   }
+
+  $ionicModal.fromTemplateUrl('templates/delete-item.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modal = modal;
+  })
+
+  $scope.deleteItem = function() {
+    $scope.modal.show();
+  }
+
+  $scope.closeModalDeleteItem = function() {
+    $scope.modal.hide();
+  }
+  
+  $scope.doSaveDelete = function() {
+  }
+
+  $ionicModal.fromTemplateUrl('templates/edit-item.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalEdit = modal;
+  })
+
+  $scope.editItem = function() {
+    $scope.modalEdit.show();
+  }
+
+  $scope.closeModalEditItem = function() {
+    $scope.modalEdit.hide();
+  }
+  
+  $scope.doSaveEdit = function() {
+  }
+
 })
 
 .controller('SwipeCtrl', function($scope) {})
