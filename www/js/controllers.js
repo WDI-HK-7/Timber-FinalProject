@@ -1,4 +1,4 @@
-angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
+angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','firebase'])
 
 .controller('ProfileCtrl', function($scope, Items, $location, $ionicModal) {
   $scope.items = Items.allitems();
