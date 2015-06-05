@@ -34,39 +34,19 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
 
 .controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
 
-$scope.showPopup = function() {
-  $scope.data = {}
-
-  var myPopup = $ionicPopup.show({
-    // template: '<input type="password" ng-model="data.wifi">',
-    title: 'There is a Match',
-    subTitle: 'Please use normal things',
-    scope: $scope,
-    buttons: [
-      { text: 'Cancel',
-        type: 'button-assertive button-block'
-      },
-      {
-        text: '<b>Save</b>',
-        type: 'button-positive button-block',
-        onTap: function(e) {
-          if (!$scope.data.wifi) {
-            e.preventDefault();
-          } else {
-            return $scope.data.wifi;
-          }
-        }
-      }
-    ]
-  });
-
-  myPopup.then(function(res) {
-    console.log('Tapped!', res);
-  });
-  // $timeout(function() {
-  //    myPopup.close(); 
-  // }, 3000);
-  };
+  $scope.showConfirm = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'It\'s a Match!',
+     template: 'Wilson also likes one of your items!'
+   });
+   confirmPopup.then(function(res) {
+     if(res) {
+       console.log('You are sure');
+     } else {
+       console.log('You are not sure');
+     }
+   });
+ };
 })
 
 .controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal) {
@@ -144,18 +124,18 @@ $scope.showPopup = function() {
   }
 })
 
-.directive('noScroll', function($document) {
+// .directive('noScroll', function($document) {
 
-  return {
-    restrict: 'A',
-    link: function($scope, $element, $attr) {
+//   return {
+//     restrict: 'A',
+//     link: function($scope, $element, $attr) {
 
-      $document.on('touchmove', function(e) {
-        e.preventDefault();
-      });
-    }
-  }
-})
+//       $document.on('touchmove', function(e) {
+//         e.preventDefault();
+//       });
+//     }
+//   }
+// })
 
 .controller('CardsCtrl', function($scope, TDCardDelegate) {
   console.log('CARDS CTRL');
