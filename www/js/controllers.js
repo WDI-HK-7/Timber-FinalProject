@@ -143,6 +143,8 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
     { image: '../../img/Wilson1.jpg' },
     { image: '../../img/Wilson2.jpg' },
     { image: '../../img/Wilson3.jpg' },
+    { image: '../../img/Wilson22.jpg'},
+    { image: '../../img/Wilson4.jpg'}
   ];
 
   $scope.cards = Array.prototype.slice.call(cardTypes, 0);

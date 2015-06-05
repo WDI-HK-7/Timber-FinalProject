@@ -1,25 +1,29 @@
 <ion-view view-title="Swipe">
-  <ion-content class="padding" ng-controller="CardsCtrl">
+  <ion-content class="padding">
+    <div ng-controller="CardsCtrl">
+      <td-cards>
+        <div ng-repeat="card in cards">
 
-    <td-cards>
-      <td-card ng-repeat="card in cards" on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
-        <div class="image" ng-controller="CardCtrl">
-          <div class="no-text">NOPE</div>
-          <img ng-src="{{card.image}}">
-          <div class="yes-text">LIKE</div>
+          <td-card on-destroy="cardDestroyed($index)" on-swipe-left="cardSwipedLeft($index)" on-swipe-right="cardSwipedRight($index)" on-partial-swipe="cardPartialSwipe(amt)" class="card-{{$index}}">
+            <div class="image">
+              <img ng-src="{{card.image}}">
+            </div>
+          </td-card>
+
+          <div class="no-text" ng-controller="CardCtrl">
+            <button class="button button-light" ng-click="cardDestroyed(cards.length-1-$index)">
+              <img ng-src="../../img/cross.jpeg" width="100px" height="100px">
+            </button>
+          </div>
+
+          <div class="yes-text"  ng-controller="PopupCtrl">
+            <button class="button button-light" ng-click="showConfirm()">
+              <img ng-src="../../img/heart.png" width="100px" height="100px">
+            </button>
+          </div>
+
         </div>
-      </td-card>
-    </td-cards>
-
-    <div class="LikeOrDislike" ng-controller="PopupCtrl">
-      <span>
-      <button class="button button-light">
-        <img ng-src="../../img/cross.jpeg" width="100px" height="100px">
-      </button>
-      <button class="button button-light" ng-click="showConfirm()">
-        <img ng-src="../../img/heart.png" width="100px" height="100px">
-      </span>
-      </button>
+      </td-cards>
     </div>
 
   </ion-content>
