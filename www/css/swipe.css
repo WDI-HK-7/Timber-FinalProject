@@ -66,13 +66,13 @@ td-card img {
 }
 
 .popup-title {
-  font-size: 100px;
+  font-size: 50px!important;
 }
 
 .popup-head {
-  height: 50px;
+  height: 100px;
 }
 
-.popup-buttons.row{
-  
+.popup-template{
+  height: 300px;
 }
