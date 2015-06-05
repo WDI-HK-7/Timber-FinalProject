@@ -1,10 +1,10 @@
-angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
+angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','firebase'])
 
 .controller('ProfileCtrl', function($scope, Items, $location, $ionicModal) {
   $scope.items = Items.allitems();
 
   $scope.toYourItem = function(index){
-    $location.path('/profile/'+ index);
+    $location.path('/tab/profile/'+ index);
   }
 
   // $scope.loginData = {};
@@ -30,6 +30,23 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
     // }, 1000);
   }
 
+})
+
+.controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
+
+  $scope.showConfirm = function() {
+   var confirmPopup = $ionicPopup.confirm({
+     title: 'It\'s a Match!',
+     template: 'Wilson also likes one of your items!'
+   });
+   confirmPopup.then(function(res) {
+     if(res) {
+       console.log('You are sure');
+     } else {
+       console.log('You are not sure');
+     }
+   });
+ };
 })
 
 .controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal) {
@@ -92,7 +109,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
 .controller('MatchesCtrl', function($scope, Items, $location) {
   $scope.items = Items.allitems();
   $scope.toMatch = function(index){
-    $location.path('/matches/'+ index);
+    $location.path('tab/matches/'+ index);
   }
 })
 
@@ -103,22 +120,22 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
     $stateParams.itemsId
   }
   $scope.ToChats = function(){
-    $location.path('/chats');
+    $location.path('tab/chats');
   }
 })
 
-.directive('noScroll', function($document) {
+// .directive('noScroll', function($document) {
 
-  return {
-    restrict: 'A',
-    link: function($scope, $element, $attr) {
+//   return {
+//     restrict: 'A',
+//     link: function($scope, $element, $attr) {
 
-      $document.on('touchmove', function(e) {
-        e.preventDefault();
-      });
-    }
-  }
-})
+//       $document.on('touchmove', function(e) {
+//         e.preventDefault();
+//       });
+//     }
+//   }
+// })
 
 .controller('CardsCtrl', function($scope, TDCardDelegate) {
   console.log('CARDS CTRL');
@@ -126,6 +143,8 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards'])
     { image: '../../img/Wilson1.jpg' },
     { image: '../../img/Wilson2.jpg' },
     { image: '../../img/Wilson3.jpg' },
+    { image: '../../img/Wilson22.jpg'},
+    { image: '../../img/Wilson4.jpg'}
   ];
 
   $scope.cards = Array.prototype.slice.call(cardTypes, 0);
