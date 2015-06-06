@@ -40,18 +40,31 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 .controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
 
   $scope.showConfirm = function() {
-   var confirmPopup = $ionicPopup.confirm({
-     title: 'It\'s a Match!',
-     template: 'Wilson also likes one of your items!'
-   });
-   confirmPopup.then(function(res) {
-     if(res) {
-       console.log('You are sure');
-     } else {
-       console.log('You are not sure');
-     }
-   });
- };
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'It\'s a Match!',
+      template: 'Wilson also likes one of your items!'
+    });
+    confirmPopup.then(function(res) {
+      if(res) {
+        console.log('You are sure');
+      } else {
+        console.log('You are not sure');
+      }
+    });
+  };
+
+  $scope.confirmDelete = function() {
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Are you sure you want to delete this?',
+    });
+    confirmPopup.then(function(res) {
+      if(res) {
+        console.log('Yes, delete item');
+      } else {
+        console.log('No, no delete');
+      }
+    });
+  };  
 })
 
 .controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal, $firebaseArray) {
@@ -138,18 +151,18 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   }
 })
 
-// .directive('noScroll', function($document) {
+.directive('noScroll', function($document) {
 
-//   return {
-//     restrict: 'A',
-//     link: function($scope, $element, $attr) {
+  return {
+    restrict: 'A',
+    link: function($scope, $element, $attr) {
 
-//       $document.on('touchmove', function(e) {
-//         e.preventDefault();
-//       });
-//     }
-//   }
-// })
+      $document.on('touchmove', function(e) {
+        e.preventDefault();
+      });
+    }
+  }
+})
 
 .controller('CardsCtrl', function($scope, TDCardDelegate) {
   console.log('CARDS CTRL');
