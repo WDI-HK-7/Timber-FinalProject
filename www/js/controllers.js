@@ -1,13 +1,21 @@
 angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','firebase'])
 
-.controller('ProfileCtrl', function($scope, Items, $location, $ionicModal) {
+.controller('ProfileCtrl', function($scope, Items, $location, $ionicModal, $firebaseArray) {
+  var ref = new Firebase("https://project-timber.firebaseio.com/items");
+  $scope.items = $firebaseArray(ref);
+  $scope.addNewItem = function() {
+    ref.push({
+      itemName: $scope.items.newItemName,
+      itemDescription: $scope.items.newItemDescription
+    })
+  };
+
   $scope.items = Items.allitems();
 
   $scope.toYourItem = function(index){
     $location.path('/tab/profile/'+ index);
   }
 
-  // $scope.loginData = {};
 
   $ionicModal.fromTemplateUrl('templates/new-item.html', {
     scope: $scope
@@ -24,10 +32,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   }
   
   $scope.doSave = function() {
-    // console.log('Doing login', $scope.loginData);
-    // $timeout(function() {
-    //   $scope.closeLogin();
-    // }, 1000);
+
   }
 
 })
@@ -49,7 +54,16 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
  };
 })
 
-.controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal) {
+.controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal, $firebaseArray) {
+
+  // var ref = new Firebase("https://project-timber.firebaseio.com/items");
+  // $scope.items = $firebaseArray(ref);
+
+  // $scope.add({
+  //   itemName: $scope.items.newItemName,
+  //   itemDescription: $scope.items.newItemDescription
+  // });
+
   $scope.items = Items.allitems();
   $scope.matchId = $stateParams.itemsId;
 

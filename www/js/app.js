@@ -36,7 +36,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   .state('tab.itemprofile', {
-  // .state('itemprofile', {
     url: "/profile/:itemsId",
     views: {
       'tab-profile':{
@@ -87,7 +86,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   .state('tab.match', {
-  // .state('match', {
     url: "/matches/:itemsId",
     views: {
       'tab-matches':{
