@@ -3,12 +3,21 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 .controller('ProfileCtrl', function($scope, Items, $location, $ionicModal, $firebaseArray) {
   var ref = new Firebase("https://project-timber.firebaseio.com/items");
   $scope.items = $firebaseArray(ref);
+  //add new item
   $scope.addNewItem = function() {
-    ref.push({
+    var itemRef = ref.push({
       itemName: $scope.items.newItemName,
       itemDescription: $scope.items.newItemDescription
     })
+    var itemsId = itemRef.key();
   };
+  //get items
+  ref.on("value", function(snapshot) {
+    console.log(snapshot.val());
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+
 
   $scope.items = Items.allitems();
 
