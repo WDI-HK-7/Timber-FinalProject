@@ -29,13 +29,22 @@ td-card img {
   position: absolute;
   margin-top: 500px;
   margin-bottom: 40px;
-  margin-left: 200px;
+  margin-left: 270px;
 }
+
+.yes-text button{
+  border-style: none;
+}
+
 .no-text {
   position: absolute;
   margin-top: 500px;
   margin-bottom: 40px;
-  margin-left: 50px;
+  margin-left: 120px;
+}
+
+.no-text button{
+  border-style: none;
 }
 
 .fade {

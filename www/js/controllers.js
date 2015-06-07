@@ -1,5 +1,22 @@
 angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','firebase'])
 
+.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+ 
+  $scope.startApp = function() {
+    $state.go('tab.swipe');
+  };
+  $scope.next = function() {
+    $ionicSlideBoxDelegate.next();
+  };
+  $scope.previous = function() {
+    $ionicSlideBoxDelegate.previous();
+  };
+
+  $scope.slideChanged = function(index) {
+    $scope.slideIndex = index;
+  };
+})
+
 .controller('ProfileCtrl', function($scope, Items, $location, $ionicModal, $firebaseArray) {
   var ref = new Firebase("https://project-timber.firebaseio.com/items");
   $scope.items = $firebaseArray(ref);
@@ -9,7 +26,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
       itemName: $scope.items.newItemName,
       itemDescription: $scope.items.newItemDescription
     })
-    var itemsId = itemRef.key();
+    var $itemsId = itemRef.key();
   };
   //get items
   ref.on("value", function(snapshot) {
@@ -17,7 +34,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
-
 
   $scope.items = Items.allitems();
 
@@ -77,7 +93,8 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 })
 
 .controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal, $firebaseArray) {
-
+  
+  //edit item
   // var ref = new Firebase("https://project-timber.firebaseio.com/items");
   // $scope.items = $firebaseArray(ref);
 
