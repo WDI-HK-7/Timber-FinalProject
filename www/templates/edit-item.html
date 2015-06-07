@@ -11,18 +11,19 @@
     <form ng-submit="doSave()">
       <div class="list">
         <label class="item item-input">
-          <span class="input-label">Item Name</span>{{items[matchId].itemName}}
+          <span class="input-label">Item Name</span><!-- {{items[matchId].itemName}} -->
           <input type="text">
         </label>
         <label class="item item-input">
           <span class="input-label">Item Description</span>
-          {{items[matchId].itemDescription}}
+          <!-- {{items[matchId].itemDescription}} -->
           <input type="text">
         </label>
         <label class="item">
           <button class="button button-block button-stable">Re-upload Image</button>
           <div class="col-offset-15">
-            <img ng-src="{{items[matchId].picture}}" width="320px" height="320px">
+            <img ng-src="" width="320px" height="320px">
+            <!-- <img ng-src="{{items[matchId].picture}}" width="320px" height="320px"> -->
           </div>
         </label>
         <label class="item">

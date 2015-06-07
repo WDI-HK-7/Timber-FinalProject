@@ -17,11 +17,13 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   };
 })
 
-.controller('ProfileCtrl', function($scope, Items, $location, $ionicModal, $firebaseArray) {
+.controller('ProfileCtrl', function($scope, $location, $ionicModal, $firebaseArray) {
+// .controller('ProfileCtrl', function($scope, Items, $location, $ionicModal, $firebaseArray) {
   var ref = new Firebase("https://project-timber.firebaseio.com/items");
   $scope.items = $firebaseArray(ref);
   //add new item
   $scope.addNewItem = function() {
+   
     var itemRef = ref.push({
       itemName: $scope.items.newItemName,
       itemDescription: $scope.items.newItemDescription
@@ -34,13 +36,16 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   }, function (errorObject) {
     console.log("The read failed: " + errorObject.code);
   });
+  /////////////////////////////////////////////////////////////////////////////////
+  // $scope.items = Items.allitems();
 
-  $scope.items = Items.allitems();
+  // $scope.toYourItem = function(index){
+  //   $location.path('/tab/profile/'+ index);
+  // }
 
-  $scope.toYourItem = function(index){
-    $location.path('/tab/profile/'+ index);
+  $scope.toYourItem = function(itemId){
+    $location.path('/tab/profile/'+ itemId);
   }
-
 
   $ionicModal.fromTemplateUrl('templates/new-item.html', {
     scope: $scope
@@ -92,39 +97,25 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   };  
 })
 
-.controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal, $firebaseArray) {
+.controller('YourItemProfileCtrl', function($scope,$location, $stateParams, $ionicModal, $firebaseArray) {
+
+// .controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal, $firebaseArray) {
   
   //edit item
-  // var ref = new Firebase("https://project-timber.firebaseio.com/items");
-  // $scope.items = $firebaseArray(ref);
+  var ref = new Firebase("https://project-timber.firebaseio.com/items");
+  $scope.items = $firebaseArray(ref);
 
-  // $scope.add({
+  // $scope.set({
   //   itemName: $scope.items.newItemName,
   //   itemDescription: $scope.items.newItemDescription
   // });
 
-  $scope.items = Items.allitems();
+  ////////////////////////////////////////////////////////////////////////////////
+  // $scope.items = Items.allitems();
   $scope.matchId = $stateParams.itemsId;
 
   $scope.DisplayMatch = function($stateParams){
     $stateParams.itemsId
-  }
-
-  $ionicModal.fromTemplateUrl('templates/delete-item.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  })
-
-  $scope.deleteItem = function() {
-    $scope.modal.show();
-  }
-
-  $scope.closeModalDeleteItem = function() {
-    $scope.modal.hide();
-  }
-  
-  $scope.doSaveDelete = function() {
   }
 
   $ionicModal.fromTemplateUrl('templates/edit-item.html', {
@@ -166,8 +157,10 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   }
 })
 
-.controller('MatchCtrl', function($scope,$location, Items, $stateParams) {
-  $scope.items = Items.allitems();
+.controller('MatchCtrl', function($scope,$location, $stateParams) {
+// .controller('MatchCtrl', function($scope,$location, Items, $stateParams) {
+  ////////////////////////////////////////////////////////////////////////////
+  // $scope.items = Items.allitems();
   $scope.matchId = $stateParams.itemsId;
   $scope.DisplayMatch = function($stateParams){
     $stateParams.itemsId

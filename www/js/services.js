@@ -1,57 +1,57 @@
 angular.module('starter.services', ['ionic', 'ionic.contrib.ui.tinderCards'])
 
 
-.factory('Items', function() {
-  var items = [{
-    id: 0,
-    ownerName: 'Wilson',
-    itemName: 'ABC',
-    itemDescription: 'ABC description',
-    picture: '../../img/Wilson1.jpg'
-  }, {
-    id: 1,
-    ownerName: 'Wilson',
-    itemName: 'DEF',
-    itemDescription: 'DEF description',
-    picture: '../../img/Wilson2.jpg'
-  }, {
-    id: 2,
-    ownerName: 'Wilson',
-    itemName: 'GHI',
-    itemDescription: 'GHI description',
-    picture: '../../img/Wilson14.jpg'
-  }, {
-    id: 3,
-    ownerName: 'Wilson',
-    itemName: 'JKL',
-    itemDescription: 'JKL description',
-    picture: '../../img/Wilson22.jpg'
-  }, {
-    id: 4,
-    ownerName: 'Wilson',
-    itemName: 'MNO',
-    itemDescription: 'MNO description',
-    picture: '../../img/Wilson3.jpg'
-  }, {
-    id: 5,
-    ownerName: 'Wilson',
-    itemName: 'PQR',
-    itemDescription: 'PQR description',
-    picture: '../../img/Wilson4.jpg'
-  }, {
-    id: 6,
-    ownerName: 'Wilson',
-    itemName: 'WST',
-    itemDescription: 'WST description',
-    picture: '../../img/Wilson5.jpg'
-  }];
+// .factory('Items', function() {
+//   var items = [{
+//     id: 0,
+//     ownerName: 'Wilson',
+//     itemName: 'ABC',
+//     itemDescription: 'ABC description',
+//     picture: '../../img/Wilson1.jpg'
+//   }, {
+//     id: 1,
+//     ownerName: 'Wilson',
+//     itemName: 'DEF',
+//     itemDescription: 'DEF description',
+//     picture: '../../img/Wilson2.jpg'
+//   }, {
+//     id: 2,
+//     ownerName: 'Wilson',
+//     itemName: 'GHI',
+//     itemDescription: 'GHI description',
+//     picture: '../../img/Wilson14.jpg'
+//   }, {
+//     id: 3,
+//     ownerName: 'Wilson',
+//     itemName: 'JKL',
+//     itemDescription: 'JKL description',
+//     picture: '../../img/Wilson22.jpg'
+//   }, {
+//     id: 4,
+//     ownerName: 'Wilson',
+//     itemName: 'MNO',
+//     itemDescription: 'MNO description',
+//     picture: '../../img/Wilson3.jpg'
+//   }, {
+//     id: 5,
+//     ownerName: 'Wilson',
+//     itemName: 'PQR',
+//     itemDescription: 'PQR description',
+//     picture: '../../img/Wilson4.jpg'
+//   }, {
+//     id: 6,
+//     ownerName: 'Wilson',
+//     itemName: 'WST',
+//     itemDescription: 'WST description',
+//     picture: '../../img/Wilson5.jpg'
+//   }];
 
-  return{
-    allitems: function() {
-      return items;
-    }
-  };
-})
+//   return{
+//     allitems: function() {
+//       return items;
+//     }
+//   };
+// })
 
 
 .factory('Chats', function() {
