@@ -18,6 +18,15 @@ body {
   margin: 30px 0px;
 }
 
+#logo img{
+  width:350px;
+  height: 650px;
+}
+
+.getstarted{
+  
+}
+
 #list {
   width: 170px;
   margin: 30px auto;
