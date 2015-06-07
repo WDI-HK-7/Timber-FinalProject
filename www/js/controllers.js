@@ -22,15 +22,17 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   var ref = new Firebase("https://project-timber.firebaseio.com/items");
   $scope.items = $firebaseArray(ref);
   //add new item
+
   $scope.addNewItem = function() {
    
     var itemRef = ref.push({
       itemName: $scope.items.newItemName,
-      itemDescription: $scope.items.newItemDescription
+      itemDescription: $scope.items.newItemDescription,
     })
     var $itemsId = itemRef.key();
   };
-  //get items
+
+  //get all items
   ref.on("value", function(snapshot) {
     console.log(snapshot.val());
   }, function (errorObject) {
@@ -39,12 +41,8 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   /////////////////////////////////////////////////////////////////////////////////
   // $scope.items = Items.allitems();
 
-  // $scope.toYourItem = function(index){
-  //   $location.path('/tab/profile/'+ index);
-  // }
-
-  $scope.toYourItem = function(itemId){
-    $location.path('/tab/profile/'+ itemId);
+  $scope.toYourItem = function(itemsId){
+    $location.path('/tab/profile/'+ itemsId);
   }
 
   $ionicModal.fromTemplateUrl('templates/new-item.html', {
@@ -104,6 +102,11 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   //edit item
   var ref = new Firebase("https://project-timber.firebaseio.com/items");
   $scope.items = $firebaseArray(ref);
+
+  ref.on("child_changed", function(snapshot) {
+  var changedPost = snapshot.val();
+  console.log("The updated post title is " + changedPost.title);
+  });
 
   // $scope.set({
   //   itemName: $scope.items.newItemName,
