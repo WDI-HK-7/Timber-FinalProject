@@ -24,7 +24,8 @@ body {
 }
 
 .getstarted{
-  
+  min-width:100px !important;
+  font-size:20px !important;
 }
 
 #list {
