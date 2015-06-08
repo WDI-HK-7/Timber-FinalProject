@@ -1,0 +1,52 @@
+<ion-view view-title="Timber">
+  <ion-nav-buttons side="left">
+    <button class="button button-positive button-clear no-animation"
+            ng-click="startApp()" ng-show="!slideIndex">
+      Skip Intro
+    </button>
+    <button class="button button-positive button-clear no-animation"
+            ng-click="previous()" ng-show="slideIndex > 0">
+      Previous Slide
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right"> 
+    <button class="button button-positive button-clear no-animation"
+            ng-click="next()" ng-show="slideIndex != 2">
+      Next
+    </button>
+    <button class="button button-positive button-clear no-animation"
+            ng-click="startApp()" ng-show="slideIndex == 2">
+      Start using MyApp
+    </button>
+  </ion-nav-buttons>
+
+  <ion-slide-box on-slide-changed="slideChanged(index)">
+    <ion-slide>
+      <h3>"Like" or "Pass" on freestuffs Timber suggests</h3>
+      <div id="logo">
+        <img src="../../img/intro1.png">
+      </div>
+      <button class="button button-positive getstarted" ng-click="startApp()">
+        Get Start
+      </button>
+    </ion-slide>
+    <ion-slide>
+      <h3>If you've liked something and the owner also likes your items</h3>
+      <div id="logo">
+        <img src="../../img/intro2.png">
+      </div>
+      <button class="button button-positive getstarted" ng-click="startApp()">
+        Get Start
+      </button>
+    </ion-slide>
+    <ion-slide>
+      <h3>Chat with the owners inside this app</h3>
+      <div id="logo">
+        <img src="../../img/intro2.png">
+      </div>
+      <button class="button button-positive getstarted" ng-click="startApp()">
+        Get Start
+      </button>
+    </ion-slide>
+  </ion-slide-box>
+</ion-view>

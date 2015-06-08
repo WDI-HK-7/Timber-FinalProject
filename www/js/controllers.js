@@ -1,13 +1,46 @@
 angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','firebase'])
 
-.controller('ProfileCtrl', function($scope, Items, $location, $ionicModal) {
+.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+ 
+  $scope.startApp = function() {
+    $state.go('tab.swipe');
+  };
+  $scope.next = function() {
+    $ionicSlideBoxDelegate.next();
+  };
+  $scope.previous = function() {
+    $ionicSlideBoxDelegate.previous();
+  };
+
+  $scope.slideChanged = function(index) {
+    $scope.slideIndex = index;
+  };
+})
+
+.controller('ProfileCtrl', function($scope, Items, $location, $ionicModal, $firebaseArray) {
+  var ref = new Firebase("https://project-timber.firebaseio.com/items");
+  $scope.items = $firebaseArray(ref);
+  //add new item
+  $scope.addNewItem = function() {
+    var itemRef = ref.push({
+      itemName: $scope.items.newItemName,
+      itemDescription: $scope.items.newItemDescription
+    })
+    var $itemsId = itemRef.key();
+  };
+  //get items
+  ref.on("value", function(snapshot) {
+    console.log(snapshot.val());
+  }, function (errorObject) {
+    console.log("The read failed: " + errorObject.code);
+  });
+
   $scope.items = Items.allitems();
 
   $scope.toYourItem = function(index){
     $location.path('/tab/profile/'+ index);
   }
 
-  // $scope.loginData = {};
 
   $ionicModal.fromTemplateUrl('templates/new-item.html', {
     scope: $scope
@@ -24,10 +57,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   }
   
   $scope.doSave = function() {
-    // console.log('Doing login', $scope.loginData);
-    // $timeout(function() {
-    //   $scope.closeLogin();
-    // }, 1000);
+
   }
 
 })
@@ -35,21 +65,44 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 .controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
 
   $scope.showConfirm = function() {
-   var confirmPopup = $ionicPopup.confirm({
-     title: 'It\'s a Match!',
-     template: 'Wilson also likes one of your items!'
-   });
-   confirmPopup.then(function(res) {
-     if(res) {
-       console.log('You are sure');
-     } else {
-       console.log('You are not sure');
-     }
-   });
- };
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'It\'s a Match!',
+      template: 'Wilson also likes one of your items!'
+    });
+    confirmPopup.then(function(res) {
+      if(res) {
+        console.log('You are sure');
+      } else {
+        console.log('You are not sure');
+      }
+    });
+  };
+
+  $scope.confirmDelete = function() {
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Are you sure you want to delete this?',
+    });
+    confirmPopup.then(function(res) {
+      if(res) {
+        console.log('Yes, delete item');
+      } else {
+        console.log('No, no delete');
+      }
+    });
+  };  
 })
 
-.controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal) {
+.controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal, $firebaseArray) {
+  
+  //edit item
+  // var ref = new Firebase("https://project-timber.firebaseio.com/items");
+  // $scope.items = $firebaseArray(ref);
+
+  // $scope.add({
+  //   itemName: $scope.items.newItemName,
+  //   itemDescription: $scope.items.newItemDescription
+  // });
+
   $scope.items = Items.allitems();
   $scope.matchId = $stateParams.itemsId;
 
@@ -124,18 +177,18 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   }
 })
 
-// .directive('noScroll', function($document) {
+.directive('noScroll', function($document) {
 
-//   return {
-//     restrict: 'A',
-//     link: function($scope, $element, $attr) {
+  return {
+    restrict: 'A',
+    link: function($scope, $element, $attr) {
 
-//       $document.on('touchmove', function(e) {
-//         e.preventDefault();
-//       });
-//     }
-//   }
-// })
+      $document.on('touchmove', function(e) {
+        e.preventDefault();
+      });
+    }
+  }
+})
 
 .controller('CardsCtrl', function($scope, TDCardDelegate) {
   console.log('CARDS CTRL');

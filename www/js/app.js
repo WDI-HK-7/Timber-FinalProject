@@ -17,7 +17,11 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   $stateProvider
 
-
+  .state('intro', {
+    url: '/',
+    templateUrl: 'templates/intro.html',
+    controller: 'IntroCtrl'
+  })
 
   .state('tab', {
     url: "/tab",
@@ -36,7 +40,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   .state('tab.itemprofile', {
-  // .state('itemprofile', {
     url: "/profile/:itemsId",
     views: {
       'tab-profile':{
@@ -87,7 +90,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   .state('tab.match', {
-  // .state('match', {
     url: "/matches/:itemsId",
     views: {
       'tab-matches':{

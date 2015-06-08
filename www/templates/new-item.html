@@ -8,17 +8,15 @@
   </ion-header-bar>
 
   <ion-content>
-    <form ng-submit="doSave()">
+    <form ng-submit="addNewItem()">
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Item Name</span>
-          <input type="text">
-          <!-- <input type="text" ng-model="loginData.username"> -->
+          <input type="text" ng-model="items.newItemName">
         </label>
         <label class="item item-input">
           <span class="input-label">Item Description</span>
-          <input type="text">
-          <!-- <input type="text" ng-model="loginData.password"> -->
+          <input type="text" ng-model="items.newItemDescription">
         </label>
         <label class="item">
           <button class="button button-block button-stable" ng-click="previewPicture=true">Upload Image</button>
@@ -27,7 +25,7 @@
           </div>
         </label>
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Save</button>
+          <button class="button button-block button-positive" type="submit" ng-click="closeModalNewItem()">Save</button>
         </label>
       </div>
     </form>

@@ -29,26 +29,22 @@ td-card img {
   position: absolute;
   margin-top: 500px;
   margin-bottom: 40px;
-  margin-left: 200px;
-
- /* position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 30px;
-  color: rgb(111, 250, 111);
-  opacity: 0;*/
+  margin-left: 270px;
 }
+
+.yes-text button{
+  border-style: none;
+}
+
 .no-text {
   position: absolute;
   margin-top: 500px;
   margin-bottom: 40px;
-  margin-left: 50px;
-/*  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 30px;
-  color: rgb(255, 115, 115);
-  opacity: 0;*/
+  margin-left: 120px;
+}
+
+.no-text button{
+  border-style: none;
 }
 
 .fade {
@@ -57,13 +53,6 @@ td-card img {
   opacity: 0;
 }
 
-/*.LikeOrDislike{
-  position: absolute;
-  margin-top: 400px;
-  margin-bottom: 40px;
-  margin-left: 75px;
-}*/
-
 .popup-container .popup {
   width: 250px
 }
@@ -71,17 +60,17 @@ td-card img {
 .popup{
   margin-top: 35px;
   width: 400px !important;
-  height: 500px;
+  height: 200px;
 }
 
 .popup-title {
-  font-size: 50px!important;
+  font-size: 20px!important;
 }
 
 .popup-head {
-  height: 100px;
+  height: 50px;
 }
 
 .popup-template{
-  height: 300px;
+  height: 200px;
 }
