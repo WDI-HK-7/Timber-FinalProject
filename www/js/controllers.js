@@ -19,6 +19,10 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 
 .controller('ProfileCtrl', function($scope, $location, $ionicModal, $firebaseArray) {
 // .controller('ProfileCtrl', function($scope, Items, $location, $ionicModal, $firebaseArray) {
+
+  $scope.newItemName = "";
+  $scope.newItemDescription = "";
+
   var ref = new Firebase("https://project-timber.firebaseio.com/items");
   $scope.items = $firebaseArray(ref);
 
@@ -29,12 +33,15 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   });
 
   //add new item
-  $scope.addNewItem = function() {
-    var itemRef = ref.push({
-      itemName: $scope.items.newItemName,
-      itemDescription: $scope.items.newItemDescription,
-    })
-    var $itemsId = itemRef.key();
+  $scope.addNewItem = function(newItemName, newItemDescription) {
+    $scope.items.$add(
+      {
+        itemName: newItemName,
+        itemDescription: newItemDescription,
+      }
+    ).then(function() {
+      $scope.itemsGroups = _.chunk($scope.items, 3);
+    });
   };
 
   //get all items

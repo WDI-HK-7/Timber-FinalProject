@@ -8,15 +8,15 @@
   </ion-header-bar>
 
   <ion-content>
-    <form ng-submit="addNewItem()">
+    <form ng-submit="addNewItem(newItemName, newItemDescription)">
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Item Name</span>
-          <input type="text" ng-model="items.newItemName">
+          <input type="text" ng-model="newItemName">
         </label>
         <label class="item item-input">
           <span class="input-label">Item Description</span>
-          <input type="text" ng-model="items.newItemDescription">
+          <input type="text" ng-model="newItemDescription">
         </label>
         <label class="item">
           <button class="button button-block button-stable" ng-click="previewPicture=true">Upload Image</button>
