@@ -17,13 +17,15 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   };
 })
 
-.controller('ProfileCtrl', function($scope, $location, $ionicModal, $firebaseArray) {
+.controller('ProfileCtrl', function($scope, $location, $ionicModal, $firebaseArray, $state, $stateParams) {
 
   $scope.newItemName = "";
   $scope.newItemDescription = "";
 
+  console.log("ProfileCtrl");
   var ref = new Firebase("https://project-timber.firebaseio.com/items");
   $scope.items = $firebaseArray(ref);
+
 
   $scope.items.$loaded().then(function(resources) {
     $scope.itemsGroups = _.chunk(resources, 3);
@@ -83,21 +85,9 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     });
   };
 
-  $scope.confirmDelete = function() {
-    var confirmPopup = $ionicPopup.confirm({
-      title: 'Are you sure you want to delete this?',
-    });
-    confirmPopup.then(function(res) {
-      if(res) {
-        console.log('Yes, delete item');
-      } else {
-        console.log('No, no delete');
-      }
-    });
-  };  
 })
 
-.controller('YourItemProfileCtrl', function($scope,$location, $stateParams, $ionicModal, $firebaseObject) {
+.controller('YourItemProfileCtrl', function($scope,$location, $stateParams, $ionicModal, $firebaseObject, $ionicPopup, $timeout, $state) {
 
   var ref = new Firebase("https://project-timber.firebaseio.com/items/" + $stateParams.itemId);
   syncObject = $firebaseObject(ref);
@@ -109,11 +99,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   // //edit item
   $scope.editOneItem = function(itemName, itemDescription) {
     $scope.item.itemName = itemName;
-    $scope.item.itemDescription = itemDescription;
-
-    // ref.on("child_changed", function(snapshot) {
-    //   var changedPost = snapshot.val();
-    // });
+    $scope.item.itemDescription = itemDescription; 
   }
 
   $ionicModal.fromTemplateUrl('templates/edit-item.html', {
@@ -132,6 +118,20 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   $scope.closeModalEditItem = function() {
     $scope.modalEdit.hide();
   }
+
+  $scope.confirmDelete = function() {
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'Are you sure you want to delete this item?',
+    });
+    confirmPopup.then(function(res) {
+      if(res) {
+        ref.remove();
+        $state.go('tab.profile');
+      } else {
+        console.log('No, no delete');
+      }
+    });
+  };  
 
 })
 
