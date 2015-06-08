@@ -26,20 +26,49 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   $scope.slideChanged = function(index) {
     $scope.slideIndex = index;
   };
-})
 
-// var refFB = new Firebase("https://project-timber.firebaseio.com");
-// refFB.authWithOAuthPopup("facebook", function(error, authData) {
-//   if (error) {
-//     console.log("Login Failed!", error);
-//   } else {
-//     console.log("Authenticated successfully with payload:", authData);
-//     console.log(authData.facebook.accessToken);
-//   }
-// })
+  var refFB = new Firebase("https://project-timber.firebaseio.com");
+
+  //SignIn
+  $scope.signIn = function(){
+    refFB.authWithOAuthPopup("facebook", function(error, authData) {
+      if (error) {
+        console.log("Login Failed!", error);
+      } else {
+        console.log("Authenticated successfully with payload:", authData);
+        refFB.onAuth(function(authData) {
+          if (authData) {
+            refFB.child("users").child(authData.uid).set({
+              provider: authData.provider,
+              name: authData.facebook.displayName
+            });
+          }
+        });
+      }
+    });
+  }
+  
+  //onAuth()
+  function authDataCallback(authData) {
+    if (authData) {
+      console.log("User " + authData.facebook.displayName + " is logged in with " + authData.provider);
+    } else {
+      console.log("User is logged out");
+    }
+  }
+  var authenticate = refFB.onAuth(authDataCallback);
+  console.log(authenticate);
+
+  //SignOut
+  $scope.signOut = function(){
+    refFB.unauth();
+    console.log("check sign out");
+  }
+})
 
 
 .controller('ProfileCtrl', function($scope, $location, $ionicModal, $firebaseArray, $state, $stateParams) {
+
 
   $scope.newItemName = "";
   $scope.newItemDescription = "";
