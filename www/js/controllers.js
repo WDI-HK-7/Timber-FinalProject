@@ -1,10 +1,21 @@
 angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','firebase'])
 
-.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
- 
-  $scope.startApp = function() {
-    $state.go('tab.swipe');
-  };
+.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicModal) {
+  
+  $ionicModal.fromTemplateUrl('templates/loginwithFB.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalFB = modal;
+  })
+
+  $scope.loginModalFB = function() {
+    $scope.modalFB.show();
+  }
+
+  $scope.closeModalFBLogin = function() {
+    $scope.modalFB.hide();
+  }
+
   $scope.next = function() {
     $ionicSlideBoxDelegate.next();
   };
@@ -16,6 +27,17 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     $scope.slideIndex = index;
   };
 })
+
+// var refFB = new Firebase("https://project-timber.firebaseio.com");
+// refFB.authWithOAuthPopup("facebook", function(error, authData) {
+//   if (error) {
+//     console.log("Login Failed!", error);
+//   } else {
+//     console.log("Authenticated successfully with payload:", authData);
+//     console.log(authData.facebook.accessToken);
+//   }
+// })
+
 
 .controller('ProfileCtrl', function($scope, $location, $ionicModal, $firebaseArray, $state, $stateParams) {
 
