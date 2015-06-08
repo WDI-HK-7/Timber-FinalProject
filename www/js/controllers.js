@@ -103,21 +103,14 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   syncObject = $firebaseObject(ref);
   syncObject.$bindTo($scope, "item");
 
-  // $scope.item.$loaded().then(function() {
-  //   $scope.itemName = $scope.item.itemName;
-  //   $scope.itemDescription = $scope.item.itemDescription;
-  // });
+  $scope.itemName = "";
+  $scope.itemDescription = "";
 
   // //edit item
   $scope.editOneItem = function(itemName, itemDescription) {
-    $scope.item.$set(
-      {
-        itemName: itemName,
-        itemDescription: itemDescription
-      }
-    ).then(function() {
-      
-    });
+    $scope.item.itemName = itemName;
+    $scope.item.itemDescription = itemDescription;
+
     // ref.on("child_changed", function(snapshot) {
     //   var changedPost = snapshot.val();
     // });
@@ -130,6 +123,9 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   })
 
   $scope.editItem = function() {
+    $scope.itemName = $scope.item.itemName;
+    $scope.itemDescription = $scope.item.itemDescription;
+
     $scope.modalEdit.show();
   }
 
