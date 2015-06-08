@@ -7,24 +7,14 @@
 
   <h3>Existing Items</h3>
 
-  <div ng-repeat="item in items track by $index" ng-if="$index % 3 === 0">
+  <div ng-repeat="itemsGroup in itemsGroups">
     <div class="row">
-      <div class="col col-33">
-        <img ng-src="" width="140px" height="140px" ng-click="toYourItem($index)">
-        <!-- <img ng-src="{{items[$index].picture}}" width="140px" height="140px" ng-click="toYourItem($index)"> -->
-      </div>
-
-      <div class="col col-33">
-        <img ng-src="" width="140px" height="140px" ng-click="toYourItem($index+1)">
-        <!-- <img ng-src="{{items[$index+1].picture}}" width="140px" height="140px" ng-click="toYourItem($index+1)"> -->
-      </div>
-
-      <div class="col col-33">
-        <img ng-src="" width="140px" height="140px" ng-click="toYourItem($index+2)">
-        <!-- <img ng-src="{{items[$index+2].picture}}" width="140px" height="140px" ng-click="toYourItem($index+2)"> -->
+      <div class="col col-33" ng-repeat="item in itemsGroup" ng-click="toYourItem(item)">
+        {{  item.$id }}
+        {{  item.itemName }}
+        {{  item.itemDescription }}
       </div>
     </div>
   </div>
-
   </ion-content>
 </ion-view>

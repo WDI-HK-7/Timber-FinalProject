@@ -40,7 +40,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   .state('tab.itemprofile', {
-    url: "/profile/:itemsId",
+    url: "/profile/:itemId",
     views: {
       'tab-profile':{
         templateUrl: "templates/item-profile.html",

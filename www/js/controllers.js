@@ -21,10 +21,15 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 // .controller('ProfileCtrl', function($scope, Items, $location, $ionicModal, $firebaseArray) {
   var ref = new Firebase("https://project-timber.firebaseio.com/items");
   $scope.items = $firebaseArray(ref);
-  //add new item
 
+  $scope.items.$loaded().then(function(resources) {
+    $scope.itemsGroups = _.chunk(resources, 3);
+
+    console.log("$scope.itemsGroups", $scope.itemsGroups);
+  });
+
+  //add new item
   $scope.addNewItem = function() {
-   
     var itemRef = ref.push({
       itemName: $scope.items.newItemName,
       itemDescription: $scope.items.newItemDescription,
@@ -41,8 +46,8 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   /////////////////////////////////////////////////////////////////////////////////
   // $scope.items = Items.allitems();
 
-  $scope.toYourItem = function(itemsId){
-    $location.path('/tab/profile/'+ itemsId);
+  $scope.toYourItem = function(item){    
+    $location.path('/tab/profile/'+ item.$id);
   }
 
   $ionicModal.fromTemplateUrl('templates/new-item.html', {
@@ -95,48 +100,48 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   };  
 })
 
-.controller('YourItemProfileCtrl', function($scope,$location, $stateParams, $ionicModal, $firebaseArray) {
+.controller('YourItemProfileCtrl', function($scope,$location, $stateParams, $ionicModal, $firebaseObject) {
 
-// .controller('YourItemProfileCtrl', function($scope,$location, Items, $stateParams, $ionicModal, $firebaseArray) {
-  
-  //edit item
-  var ref = new Firebase("https://project-timber.firebaseio.com/items");
-  $scope.items = $firebaseArray(ref);
-
-  ref.on("child_changed", function(snapshot) {
-  var changedPost = snapshot.val();
-  console.log("The updated post title is " + changedPost.title);
+  var ref = new Firebase("https://project-timber.firebaseio.com/items/" + $stateParams.itemId);
+  $scope.item = $firebaseObject(ref);
+  $scope.item.$loaded().then(function() {
+    console.log("$scope.item", $scope.item);
   });
-
-  // $scope.set({
-  //   itemName: $scope.items.newItemName,
-  //   itemDescription: $scope.items.newItemDescription
-  // });
-
-  ////////////////////////////////////////////////////////////////////////////////
-  // $scope.items = Items.allitems();
-  $scope.matchId = $stateParams.itemsId;
-
-  $scope.DisplayMatch = function($stateParams){
-    $stateParams.itemsId
-  }
-
-  $ionicModal.fromTemplateUrl('templates/edit-item.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modalEdit = modal;
-  })
-
-  $scope.editItem = function() {
-    $scope.modalEdit.show();
-  }
-
-  $scope.closeModalEditItem = function() {
-    $scope.modalEdit.hide();
-  }
   
-  $scope.doSaveEdit = function() {
-  }
+  // //edit item
+  // $scope.editOneItem = function() {
+  //   var ref = new Firebase("https://project-timber.firebaseio.com/items");
+  //   $scope.items = $firebaseArray(ref);
+
+  //   ref.on("child_changed", function(snapshot) {
+  //   var changedPost = snapshot.val();
+  //   });
+  // }
+
+  // ////////////////////////////////////////////////////////////////////////////////
+  // // $scope.items = Items.allitems();
+  // $scope.matchId = $stateParams.itemsId;
+
+  // $scope.DisplayMatch = function($stateParams){
+  //   $stateParams.itemsId
+  // }
+
+  // $ionicModal.fromTemplateUrl('templates/edit-item.html', {
+  //   scope: $scope
+  // }).then(function(modal) {
+  //   $scope.modalEdit = modal;
+  // })
+
+  // $scope.editItem = function() {
+  //   $scope.modalEdit.show();
+  // }
+
+  // $scope.closeModalEditItem = function() {
+  //   $scope.modalEdit.hide();
+  // }
+  
+  // $scope.doSaveEdit = function() {
+  // }
 
 })
 
