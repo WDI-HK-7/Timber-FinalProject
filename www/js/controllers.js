@@ -18,7 +18,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 })
 
 .controller('ProfileCtrl', function($scope, $location, $ionicModal, $firebaseArray) {
-// .controller('ProfileCtrl', function($scope, Items, $location, $ionicModal, $firebaseArray) {
 
   $scope.newItemName = "";
   $scope.newItemDescription = "";
@@ -43,15 +42,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
       $scope.itemsGroups = _.chunk($scope.items, 3);
     });
   };
-
-  //get all items
-  ref.on("value", function(snapshot) {
-    console.log(snapshot.val());
-  }, function (errorObject) {
-    console.log("The read failed: " + errorObject.code);
-  });
-  /////////////////////////////////////////////////////////////////////////////////
-  // $scope.items = Items.allitems();
 
   $scope.toYourItem = function(item){    
     $location.path('/tab/profile/'+ item.$id);
@@ -110,45 +100,42 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 .controller('YourItemProfileCtrl', function($scope,$location, $stateParams, $ionicModal, $firebaseObject) {
 
   var ref = new Firebase("https://project-timber.firebaseio.com/items/" + $stateParams.itemId);
-  $scope.item = $firebaseObject(ref);
-  $scope.item.$loaded().then(function() {
-    console.log("$scope.item", $scope.item);
-  });
-  
+  syncObject = $firebaseObject(ref);
+  syncObject.$bindTo($scope, "item");
+
+  // $scope.item.$loaded().then(function() {
+  //   $scope.itemName = $scope.item.itemName;
+  //   $scope.itemDescription = $scope.item.itemDescription;
+  // });
+
   // //edit item
-  // $scope.editOneItem = function() {
-  //   var ref = new Firebase("https://project-timber.firebaseio.com/items");
-  //   $scope.items = $firebaseArray(ref);
+  $scope.editOneItem = function(itemName, itemDescription) {
+    $scope.item.$set(
+      {
+        itemName: itemName,
+        itemDescription: itemDescription
+      }
+    ).then(function() {
+      
+    });
+    // ref.on("child_changed", function(snapshot) {
+    //   var changedPost = snapshot.val();
+    // });
+  }
 
-  //   ref.on("child_changed", function(snapshot) {
-  //   var changedPost = snapshot.val();
-  //   });
-  // }
+  $ionicModal.fromTemplateUrl('templates/edit-item.html', {
+    scope: $scope
+  }).then(function(modal) {
+    $scope.modalEdit = modal;
+  })
 
-  // ////////////////////////////////////////////////////////////////////////////////
-  // // $scope.items = Items.allitems();
-  // $scope.matchId = $stateParams.itemsId;
+  $scope.editItem = function() {
+    $scope.modalEdit.show();
+  }
 
-  // $scope.DisplayMatch = function($stateParams){
-  //   $stateParams.itemsId
-  // }
-
-  // $ionicModal.fromTemplateUrl('templates/edit-item.html', {
-  //   scope: $scope
-  // }).then(function(modal) {
-  //   $scope.modalEdit = modal;
-  // })
-
-  // $scope.editItem = function() {
-  //   $scope.modalEdit.show();
-  // }
-
-  // $scope.closeModalEditItem = function() {
-  //   $scope.modalEdit.hide();
-  // }
-  
-  // $scope.doSaveEdit = function() {
-  // }
+  $scope.closeModalEditItem = function() {
+    $scope.modalEdit.hide();
+  }
 
 })
 
@@ -173,9 +160,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 })
 
 .controller('MatchCtrl', function($scope,$location, $stateParams) {
-// .controller('MatchCtrl', function($scope,$location, Items, $stateParams) {
-  ////////////////////////////////////////////////////////////////////////////
-  // $scope.items = Items.allitems();
+
   $scope.matchId = $stateParams.itemsId;
   $scope.DisplayMatch = function($stateParams){
     $stateParams.itemsId
