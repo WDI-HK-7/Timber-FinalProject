@@ -252,8 +252,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('MatchesCtrl', function($scope, Items, $location) {
-  $scope.items = Items.allitems();
+.controller('MatchesCtrl', function($scope, $location) {
   $scope.toMatch = function(index){
     $location.path('tab/matches/'+ index);
   }

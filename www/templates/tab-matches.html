@@ -1,14 +1,14 @@
 <ion-view view-title="Matches">
   <ion-content>
-      <div ng-repeat="itemsGroup in itemsGroups">
-    <div class="row">
-      <div class="col col-33" ng-repeat="item in itemsGroup" ng-click="toYourItem(item)">
-        {{  item.$id }}
-        {{  item.itemName }}
-        {{  item.itemDescription }}
-        {{  item.userId }}
+    <div ng-repeat="itemsGroup in itemsGroups">
+      <div class="row">
+        <div class="col col-33" ng-repeat="item in itemsGroup" ng-click="toYourItem(item)">
+          {{  item.$id }}
+          {{  item.itemName }}
+          {{  item.itemDescription }}
+          {{  item.userId }}
+        </div>
       </div>
     </div>
-  </div>
   </ion-content>
 </ion-view>

@@ -17,21 +17,13 @@
       </div>
     <!-- </div> -->
     <h4>Owner has also liked following items of yours...</h4>
-    <div ng-repeat="item in items track by $index" ng-if="$index % 3 === 0">
+    <div ng-repeat="itemsGroup in itemsGroups">
       <div class="row">
-        <div class="col col-33">
-          <img ng-src="" width="140px" height="140px">
-          <!-- <img ng-src="{{items[$index].picture}}" width="140px" height="140px"> -->
-        </div>
-
-        <div class="col col-33">
-          <img ng-src="" width="140px" height="140px">
-          <!-- <img ng-src="{{items[$index+1].picture}}" width="140px" height="140px"> -->
-        </div>
-
-        <div class="col col-33">
-          <img ng-src="" width="140px" height="140px">
-          <!-- <img ng-src="{{items[$index+2].picture}}" width="140px" height="140px"> -->
+        <div class="col col-33" ng-repeat="item in itemsGroup" ng-click="toYourItem(item)">
+          {{  item.$id }}
+          {{  item.itemName }}
+          {{  item.itemDescription }}
+          {{  item.userId }}
         </div>
       </div>
     </div>
