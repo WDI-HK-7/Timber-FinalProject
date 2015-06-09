@@ -109,23 +109,47 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         itemDescription: newItemDescription
       }
     ).then(function() {
-      $scope.itemsGroups = _.chunk($scope.items, 3);
+      ref.orderByChild("userId").equalTo(userId).on('value', function(resources){
+        console.log(resources.val());
+
+        var arrayMyItem = [];
+        var newResources = resources.val();
+        for (var key in newResources) {
+          var newResource  = newResources[key];
+          newResource.id = key;
+          arrayMyItem.push(newResource);
+        }
+        $scope.itemsGroups = _.chunk(arrayMyItem, 3);
+        console.log(arrayMyItem);
+      });
     });
   };
 
-  //get items
-  // ref.orderByChild("userId").equalTo(userId).on("child_added", function(snapshot) {
-    
-  // });
+  //get users items
+  ref.orderByChild("userId").equalTo(userId).on('value', function(resources){
+    console.log(resources.val());
+
+    var arrayMyItem = [];
+    var newResources = resources.val();
+    for (var key in newResources) {
+      var newResource  = newResources[key];
+      newResource.id = key;
+      arrayMyItem.push(newResource);
+    }
+    $scope.itemsGroups = _.chunk(arrayMyItem, 3);
+    console.log(arrayMyItem);
+  });
+
 
   //OLD get items
   $scope.items.$loaded().then(function(resources) {
-    $scope.itemsGroups = _.chunk(resources, 3);
+    console.log("old one");
+    console.log(resources);
   });
 
   //view each item
   $scope.toYourItem = function(item){    
-    $location.path('/tab/profile/'+ item.$id);
+    $location.path('/tab/profile/'+ item.id);
   }
 
   //add item modal
