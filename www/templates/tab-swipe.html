@@ -11,15 +11,13 @@
           </td-card>
 
           <div class="no-text">
-            <!-- <button class="button button-light" ng-click="cardDestroyed(cards.length-1-$index)"> -->
             <button class="button button-light" ng-click="cardSwipedLeft($index)">
               <img ng-src="../../img/cross.jpeg" width="100px" height="100px">
             </button>
           </div>
 
           <div class="yes-text"  ng-controller="PopupCtrl">
-            <!-- <button class="button button-light" ng-click="showConfirm()"> -->
-              <button class="button button-light" ng-click="cardSwipedLeft($index)">
+              <button class="button button-light" ng-click="cardSwipedRight($index)">
               <img ng-src="../../img/heart.png" width="100px" height="100px">
             </button>
           </div>

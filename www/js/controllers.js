@@ -347,7 +347,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     )
   };
 
-
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
     var item = $scope.cards[index];
@@ -356,6 +355,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     $scope.addNewDisLikes(item);
     $scope.cardDestroyed(index);
   };
+
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
     var item = $scope.cards[index];
@@ -365,13 +365,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     $scope.cardDestroyed(index);
   };
 
-  // var cardTypes = [
-  //   { image: '../../img/Wilson1.jpg' },
-  //   { image: '../../img/Wilson2.jpg' },
-  //   { image: '../../img/Wilson3.jpg' },
-  //   { image: '../../img/Wilson22.jpg'},
-  //   { image: '../../img/Wilson4.jpg'}
-  // ];
 
 })
 
