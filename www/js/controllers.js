@@ -34,8 +34,12 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     });
     alertPopup.then(function(res) {
     console.log('Thank you close signin alert');
-    $state.go('tab.swipe');
+    // $state.go('tab.swipe');
    });
+  };
+
+  $scope.goSwipe = function(){
+    $state.go('tab.swipe');
   };
 
   var refFB = new Firebase("https://project-timber.firebaseio.com");

@@ -34,8 +34,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-profile': {
         templateUrl: 'templates/tab-profile.html',
-        controller: 'ProfileCtrl',
-        cache: false
+        controller: 'ProfileCtrl'
       }
     }
   })
