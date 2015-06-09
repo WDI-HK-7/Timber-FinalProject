@@ -74,7 +74,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     }
   }
   var authenticate = refFB.onAuth(authDataCallback);
-  console.log(authenticate);
 
   //SignOut
   $scope.signOut = function(){
@@ -295,11 +294,12 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   items.$loaded().then(function() {
     $scope.cards = _.filter(items, function(item) {
       console.log(item.userId !== userId);
+      // console.log($scope.cards);
       return item.userId !== userId;
     });
   });
 
-  $scope.cards = Array.prototype.slice.call($scope.cards, 0);// no use?
+  $scope.cards = Array.prototype.slice.call($scope.cards, 0);
 
   // $scope.addCard = function() {
   //   var newCard = $scope.cards[Math.floor(Math.random() * $scope.cards.length)];
@@ -310,30 +310,59 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   //   console.log(newCard);
   // };
 
+
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
   };
 
-  var likeItem = function() {
 
+  var ref = new Firebase("https://project-timber.firebaseio.com/likes");
+
+  $scope.likes = $firebaseArray(ref);
+  var currentuserId = localStorageService.get("userID");
+
+  //new likes/ dislikes
+  $scope.addNewLikes = function(item) {
+    console.log(item);
+    $scope.likes.$add(
+      { 
+        userId: currentuserId,//current user's own id
+        ownerId: item.userId,//owner's id
+        itemId: item.$id,
+        like: true
+      }
+    )
   };
 
-  var dislikeItem = function(item) {
-
+  //new likes/ dislikes
+  $scope.addNewDisLikes = function(item) {
+    console.log(item);
+    $scope.likes.$add(
+      { 
+        userId: currentuserId,//current user's own id
+        ownerId: item.userId,//owner's id
+        itemId: item.$id,
+        like: false
+      }
+    )
   };
+
 
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
     var item = $scope.cards[index];
-    console.log("check item");
+    console.log("check item left");
     console.log(item);
-    dislikeItem(item);
+    $scope.addNewDisLikes(item);
     $scope.cardDestroyed(index);
   };
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
-    $scope.addCard();
-    // likeItem();
+    var item = $scope.cards[index];
+    console.log("check item right");
+    console.log(item);
+    $scope.addNewLikes(item);
+    $scope.cardDestroyed(index);
   };
 
   // var cardTypes = [
