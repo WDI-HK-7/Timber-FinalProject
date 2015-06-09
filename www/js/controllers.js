@@ -1,6 +1,6 @@
-angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','firebase'])
+angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','firebase', 'LocalStorageModule'])
 
-.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicModal ,$ionicPopup, $timeout) {
+.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicModal ,$ionicPopup, $timeout, localStorageService) {
   
   $ionicModal.fromTemplateUrl('templates/loginwithFB.html', {
     scope: $scope
@@ -27,20 +27,19 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     $scope.slideIndex = index;
   };
 
-  $scope.LoginConfirm = function() {
-    var alertPopup = $ionicPopup.alert({
-     title: 'Hi, you are signed in',
-     template: 'You may now close this window'
-    });
-    alertPopup.then(function(res) {
-    console.log('Thank you close signin alert');
-    // $state.go('tab.swipe');
-   });
-  };
+  // $scope.LoginConfirm = function() {
+  //   var alertPopup = $ionicPopup.alert({
+  //    title: 'Hi, you are signed in',
+  //    template: 'You may now close this window'
+  //   });
+  //   alertPopup.then(function(res) {
+  //   console.log('Thank you close signin alert');
+  //  });
+  // };
 
-  $scope.goSwipe = function(){
-    $state.go('tab.swipe');
-  };
+  function routeTo() {
+    window.location.href = '#/tab/swipe';
+  }
 
   var refFB = new Firebase("https://project-timber.firebaseio.com");
 
@@ -57,9 +56,9 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
               provider: authData.provider,
               name: authData.facebook.displayName
             });
-            window.location.href = "#/tab/swipe"
             // $state.go('tab.swipe');
-            // LoginConfirm();
+            routeTo();
+            localStorageService.set("userID", authData.uid);
           }
         });
       }
@@ -69,7 +68,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   //onAuth()
   function authDataCallback(authData) {
     if (authData) {
-      // LoginConfirm();
       console.log("User " + authData.facebook.displayName + " is logged in with " + authData.provider);
     } else {
       console.log("User is logged out");
@@ -84,42 +82,53 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     console.log("check sign out");
     $state.go('intro');
   }
+
 })
 
 
-.controller('ProfileCtrl', function($scope, $location, $ionicModal, $firebaseArray, $state, $stateParams) {
-
+.controller('ProfileCtrl', function($scope, $location, $ionicModal, $firebaseArray, $state, $stateParams, localStorageService) {
 
   $scope.newItemName = "";
   $scope.newItemDescription = "";
 
   console.log("ProfileCtrl");
+
   var ref = new Firebase("https://project-timber.firebaseio.com/items");
+
   $scope.items = $firebaseArray(ref);
 
 
-  $scope.items.$loaded().then(function(resources) {
-    $scope.itemsGroups = _.chunk(resources, 3);
-
-    console.log("$scope.itemsGroups", $scope.itemsGroups);
-  });
-
-  //add new item
+  var userId = localStorageService.get("userID");
+  //new items
   $scope.addNewItem = function(newItemName, newItemDescription) {
+
     $scope.items.$add(
-      {
+      { 
+        userId: userId,
         itemName: newItemName,
-        itemDescription: newItemDescription,
+        itemDescription: newItemDescription
       }
     ).then(function() {
       $scope.itemsGroups = _.chunk($scope.items, 3);
     });
   };
 
+  //get items
+  // ref.orderByChild("userId").equalTo(userId).on("child_added", function(snapshot) {
+    
+  // });
+
+  //OLD get items
+  $scope.items.$loaded().then(function(resources) {
+    $scope.itemsGroups = _.chunk(resources, 3);
+  });
+
+  //view each item
   $scope.toYourItem = function(item){    
     $location.path('/tab/profile/'+ item.$id);
   }
 
+  //add item modal
   $ionicModal.fromTemplateUrl('templates/new-item.html', {
     scope: $scope
   }).then(function(modal) {
@@ -167,7 +176,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   $scope.itemName = "";
   $scope.itemDescription = "";
 
-  // //edit item
+  //edit item
   $scope.editOneItem = function(itemName, itemDescription) {
     $scope.item.itemName = itemName;
     $scope.item.itemDescription = itemDescription; 
@@ -189,7 +198,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   $scope.closeModalEditItem = function() {
     $scope.modalEdit.hide();
   }
-
+  //remove item
   $scope.confirmDelete = function() {
     var confirmPopup = $ionicPopup.confirm({
       title: 'Are you sure you want to delete this item?',
