@@ -100,6 +100,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   });
 
-  $urlRouterProvider.otherwise('/tab/swipe');
+  $urlRouterProvider.otherwise('/');
 
 });

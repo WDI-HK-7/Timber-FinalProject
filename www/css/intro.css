@@ -14,14 +14,132 @@ body {
   font-weight: 300;
 }
 
-#logo {
-  margin: 30px 0px;
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+  .slider-slide {
+    padding-top: 50px;
+    color: #000;
+    background-color: #fff;
+    text-align: center;
+
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-size: 300;
+  }
+
+  #logo {
+    margin: 10px 0px;
+  }
+
+  #logo img{
+    width:135px;
+    height: 260px;
+  }
+
+  .fb{
+    margin-top:30px;
+    margin-left:60px;
+  }
+
+  .fb button{
+    margin-top:30px;
+    margin-left:10px;
+  }
 }
 
-#logo img{
-  width:350px;
-  height: 650px;
+@media only screen and (min-device-width : 320px) and (max-device-width : 568px) {
+  .slider-slide {
+    padding-top: 50px;
+    color: #000;
+    background-color: #fff;
+    text-align: center;
+
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-size: 300;
+  }
+
+  #logo {
+    margin: 10px 0px;
+  }
+
+  #logo img{
+    width:160px;
+    height: 320px;
+  }
+
+  .fb{
+    margin-top:30px;
+    margin-left:60px;
+  }
+
+  .fb button{
+    margin-top:30px;
+    margin-left:10px;
+  }
 }
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 667px) {
+  .slider-slide {
+    padding-top: 80px;
+    color: #000;
+    background-color: #fff;
+    text-align: center;
+
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-size: 300;
+  }
+
+  #logo {
+    margin: 20px 0px;
+  }
+
+  #logo img{
+    width:175px;
+    height: 350px;
+  }
+
+  .fb{
+    margin-top:30px;
+    margin-left:85px;
+  }
+
+  .fb button{
+    margin-top:30px;
+    margin-left:8px;
+  }
+}
+
+@media only screen and (min-device-width : 320px) and (max-device-width : 736px) {
+  .slider-slide {
+    padding-top: 80px;
+    color: #000;
+    background-color: #fff;
+    text-align: center;
+
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+    font-size: 300;
+  }
+
+  #logo {
+    margin: 20px 0px;
+  }
+
+  #logo img{
+    width:200px;
+    height: 400px;
+  }
+
+  .fb{
+    margin-top:30px;
+    margin-left:100px;
+  }
+
+  .fb button{
+    margin-top:30px;
+    margin-left:10px;
+  }
+}
+
+
 
 .getstarted{
   min-width:100px !important;

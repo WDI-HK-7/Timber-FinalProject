@@ -1,6 +1,6 @@
 angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','firebase'])
 
-.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicModal) {
+.controller('IntroCtrl', function($scope, $state, $ionicSlideBoxDelegate, $ionicModal ,$ionicPopup, $timeout) {
   
   $ionicModal.fromTemplateUrl('templates/loginwithFB.html', {
     scope: $scope
@@ -27,6 +27,17 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     $scope.slideIndex = index;
   };
 
+  $scope.LoginConfirm = function() {
+    var alertPopup = $ionicPopup.alert({
+     title: 'Hi, you are signed in',
+     template: 'You may now close this window'
+    });
+    alertPopup.then(function(res) {
+    console.log('Thank you close signin alert');
+    $state.go('tab.swipe');
+   });
+  };
+
   var refFB = new Firebase("https://project-timber.firebaseio.com");
 
   //SignIn
@@ -42,6 +53,9 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
               provider: authData.provider,
               name: authData.facebook.displayName
             });
+            window.location.href = "#/tab/swipe"
+            // $state.go('tab.swipe');
+            // LoginConfirm();
           }
         });
       }
@@ -51,6 +65,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   //onAuth()
   function authDataCallback(authData) {
     if (authData) {
+      // LoginConfirm();
       console.log("User " + authData.facebook.displayName + " is logged in with " + authData.provider);
     } else {
       console.log("User is logged out");
@@ -63,6 +78,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   $scope.signOut = function(){
     refFB.unauth();
     console.log("check sign out");
+    $state.go('intro');
   }
 })
 
@@ -231,7 +247,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 })
 
 .controller('CardsCtrl', function($scope, TDCardDelegate) {
-  console.log('CARDS CTRL');
   var cardTypes = [
     { image: '../../img/Wilson1.jpg' },
     { image: '../../img/Wilson2.jpg' },
