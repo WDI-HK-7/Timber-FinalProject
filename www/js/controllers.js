@@ -106,7 +106,8 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
       { 
         userId: userId,
         itemName: newItemName,
-        itemDescription: newItemDescription
+        itemDescription: newItemDescription,
+        imageUrl: "http://placehold.it/200x200"
       }
     ).then(function() {
       ref.orderByChild("userId").equalTo(userId).on('value', function(resources){
@@ -270,48 +271,81 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   }
 })
 
-.directive('noScroll', function($document) {
+// .directive('noScroll', function($document) {
 
-  return {
-    restrict: 'A',
-    link: function($scope, $element, $attr) {
+//   return {
+//     restrict: 'A',
+//     link: function($scope, $element, $attr) {
 
-      $document.on('touchmove', function(e) {
-        e.preventDefault();
-      });
-    }
-  }
-})
+//       $document.on('touchmove', function(e) {
+//         e.preventDefault();
+//       });
+//     }
+//   }
+// })
 
-.controller('CardsCtrl', function($scope, TDCardDelegate) {
-  var cardTypes = [
-    { image: '../../img/Wilson1.jpg' },
-    { image: '../../img/Wilson2.jpg' },
-    { image: '../../img/Wilson3.jpg' },
-    { image: '../../img/Wilson22.jpg'},
-    { image: '../../img/Wilson4.jpg'}
-  ];
+.controller('CardsCtrl', function($scope, TDCardDelegate, $firebaseArray, localStorageService) {
 
-  $scope.cards = Array.prototype.slice.call(cardTypes, 0);
+  $scope.cards = [];
+  var userId = localStorageService.get("userID");
+
+  var ref = new Firebase("https://project-timber.firebaseio.com/items");
+  var items = $firebaseArray(ref);
+
+  items.$loaded().then(function() {
+    $scope.cards = _.filter(items, function(item) {
+      console.log(item.userId !== userId);
+      return item.userId !== userId;
+    });
+  });
+
+  $scope.cards = Array.prototype.slice.call($scope.cards, 0);// no use?
+
+  // $scope.addCard = function() {
+  //   var newCard = $scope.cards[Math.floor(Math.random() * $scope.cards.length)];
+  //   newCard.id = Math.random();
+  //   $scope.cards.push(angular.extend({}, newCard));
+  //   cardDestroyed(newCard);
+  //   console.log("newcard");
+  //   console.log(newCard);
+  // };
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
   };
 
-  $scope.addCard = function() {
-    var newCard = cardTypes[Math.floor(Math.random() * cardTypes.length)];
-    newCard.id = Math.random();
-    $scope.cards.push(angular.extend({}, newCard));
-  }
-})
+  var likeItem = function() {
 
-.controller('CardCtrl', function($scope, TDCardDelegate) {
+  };
+
+  var dislikeItem = function(item) {
+
+  };
+
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
-    $scope.addCard();
+    var item = $scope.cards[index];
+    console.log("check item");
+    console.log(item);
+    dislikeItem(item);
+    $scope.cardDestroyed(index);
   };
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
     $scope.addCard();
+    // likeItem();
   };
+
+  // var cardTypes = [
+  //   { image: '../../img/Wilson1.jpg' },
+  //   { image: '../../img/Wilson2.jpg' },
+  //   { image: '../../img/Wilson3.jpg' },
+  //   { image: '../../img/Wilson22.jpg'},
+  //   { image: '../../img/Wilson4.jpg'}
+  // ];
+
+})
+
+.controller('CardCtrl', function($scope, TDCardDelegate, $firebaseArray) {
+
 });
