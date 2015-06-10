@@ -74,7 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-swipe': {
         templateUrl: 'templates/tab-swipe.html',
-        controller: 'SwipeCtrl'
+        controller: 'CardsCtrl'
       }
     }
   })

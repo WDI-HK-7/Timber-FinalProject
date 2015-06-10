@@ -1,14 +1,12 @@
-<ion-view view-title="Matches">
+<ion-view cache-view="false" view-title="Matches">
   <ion-content>
-    <div ng-controller="CardsCtrl">
-      <div ng-repeat="itemsGroup in itemsGroups">
-        <div class="row">
-          <div class="col col-33" ng-repeat="item in itemsGroup" ng-click="toYourItem(item)">
-            {{  item.$id }}
-            {{  item.itemName }}
-            {{  item.itemDescription }}
-            {{  item.userId }}
-          </div>
+    <div ng-repeat="itemsGroup in itemsGroups">
+      <div class="row">
+        <div class="col col-33" ng-repeat="item in itemsGroup" ng-click="toMatch(item)">
+          {{  item.$id }}
+          {{  item.itemName }}
+          {{  item.itemDescription }}
+          {{  item.userId }}
         </div>
       </div>
     </div>

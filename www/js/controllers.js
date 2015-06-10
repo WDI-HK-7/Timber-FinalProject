@@ -91,8 +91,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   $scope.newItemName = "";
   $scope.newItemDescription = "";
 
-  console.log("ProfileCtrl");
-
   var ref = new Firebase("https://project-timber.firebaseio.com/items");
 
   $scope.items = $firebaseArray(ref);
@@ -218,35 +216,16 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 
 })
 
-.controller('SwipeCtrl', function($scope) {})
+// .controller('ChatsCtrl', function($scope, Chats) {  
+//   $scope.chats = Chats.all();
+//   $scope.remove = function(chat) {
+//     Chats.remove(chat);
+//   }
+// })
 
-.controller('ChatsCtrl', function($scope, Chats) {  
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  }
-})
-
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-
-.controller('MatchesCtrl', function($scope, $location) {
-  $scope.toMatch = function(index){
-    $location.path('tab/matches/'+ index);
-  }
-})
-
-.controller('MatchCtrl', function($scope,$location, $stateParams) {
-
-  $scope.matchId = $stateParams.itemsId;
-  $scope.DisplayMatch = function($stateParams){
-    $stateParams.itemsId
-  }
-  $scope.ToChats = function(){
-    $location.path('tab/chats');
-  }
-})
+// .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+//   $scope.chat = Chats.get($stateParams.chatId);
+// })
 
 // .directive('noScroll', function($document) {
 
@@ -353,15 +332,71 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
       if (match.length !== 0){
         console.log("Match!");
         $scope.showConfirm();
-        //post item i like into the match page
-        //push items i like into an array
+
+        //store arrayItemILike in database-matches
+        var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
+
+          $scope.matches = $firebaseArray(matchref);
+          console.log("testinggggg");
+          $scope.addNewMatches = function(item) {
+            $scope.matches.$add(
+              { 
+                userId: currentuserId,
+                ownerId: item.userId,
+                itemId: item.$id,
+                itemimageUrl: item.imageUrl,
+                itemName: item.itemName,
+                itemDescription: item.itemDescription
+              }
+            )
+          };
+          $scope.addNewMatches(item);
         arrayItemILike.push(item);
       }
         console.log("print the item i like array");
         console.log(arrayItemILike);
-        $scope.itemsGroups = _.chunk(arrayItemILike, 3);
-    });
 
+    });
     $scope.cardDestroyed(index);
   };
+})
+
+.controller('MatchesCtrl', function($scope, $location, $ionicModal, $firebaseArray, $state, $stateParams, localStorageService) {
+
+   //get matches items
+  // ref.orderByChild("userId").equalTo(userId).on('value', function(resources){
+  //   console.log(resources.val());
+
+  //   var arrayMyItem = [];
+  //   var newResources = resources.val();
+  //   for (var key in newResources) {
+  //     var newResource  = newResources[key];
+  //     newResource.id = key;
+  //     arrayMyItem.push(newResource);
+  //   }
+  //   $scope.itemsGroups = _.chunk(arrayMyItem, 3);
+  //   console.log(arrayMyItem);
+  // });
+  
+  var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
+  var matches = $firebaseArray(matchref);
+  matches.$loaded().then(function() {
+    $scope.itemsGroups = _.chunk(matches, 3);
+  });
+  
+
+  $scope.toMatch = function(item){
+    $location.path('tab/matches/'+ item.id);
+  }
+})
+
+.controller('MatchCtrl', function($scope,$location, $stateParams) {
+
+  $scope.matchId = $stateParams.itemsId;
+  $scope.DisplayMatch = function($stateParams){
+    $stateParams.itemsId
+  }
+  $scope.ToChats = function(){
+    $location.path('tab/chats');
+  }
 })
