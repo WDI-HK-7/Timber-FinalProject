@@ -47,6 +47,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
             $state.go('tab.swipe');
             $scope.closeModalFBLogin();
             localStorageService.set("userID", authData.uid);
+            localStorageService.set("userName", authData.facebook.displayName);
           }
         });
       }
@@ -84,6 +85,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 
 
   var userId = localStorageService.get("userID");
+  var userName = localStorageService.get("userName");
   //new items
   $scope.addNewItem = function(newItemName, newItemDescription) {
 
@@ -92,6 +94,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         userId: userId,
         itemName: newItemName,
         itemDescription: newItemDescription,
+        ownerName: userName,
         imageUrl: "http://placehold.it/200x200"
       }
     ).then(function() {
@@ -237,6 +240,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 
   $scope.cards = [];
   var currentuserId = localStorageService.get("userID");
+  var userName = localStorageService.get("userName");
 
   var itemref = new Firebase("https://project-timber.firebaseio.com/items");
   var items = $firebaseArray(itemref);
@@ -317,6 +321,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
               { 
                 userId: currentuserId,
                 ownerId: item.userId,
+                ownerName: item.ownerName,
                 itemId: item.$id,
                 itemimageUrl: item.imageUrl,
                 itemName: item.itemName,
@@ -338,6 +343,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 .controller('MatchesCtrl', function($scope, $location, $ionicModal, $firebaseArray, $state, $stateParams, localStorageService) {
   
   var currentuserId = localStorageService.get("userID");
+  var userName = localStorageService.get("userName");
 
   //print at match page
   var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
