@@ -142,10 +142,10 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 
 
   //OLD get items
-  $scope.items.$loaded().then(function(resources) {
-    console.log("old one");
-    console.log(resources);
-  });
+  // $scope.items.$loaded().then(function(resources) {
+  //   console.log("old one");
+  //   console.log(resources);
+  // });
 
   //view each item
   $scope.toYourItem = function(item){    
@@ -285,44 +285,32 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 .controller('CardsCtrl', function($scope, TDCardDelegate, $firebaseArray, localStorageService) {
 
   $scope.cards = [];
-  var userId = localStorageService.get("userID");
+  var currentuserId = localStorageService.get("userID");
 
-  var ref = new Firebase("https://project-timber.firebaseio.com/items");
-  var items = $firebaseArray(ref);
+  var itemref = new Firebase("https://project-timber.firebaseio.com/items");
+  var items = $firebaseArray(itemref);
 
   items.$loaded().then(function() {
     $scope.cards = _.filter(items, function(item) {
-      console.log(item.userId !== userId);
+      console.log(item.userId !== currentuserId);
       // console.log($scope.cards);
-      return item.userId !== userId;
+      return item.userId !== currentuserId;
     });
   });
 
   $scope.cards = Array.prototype.slice.call($scope.cards, 0);
 
-  // $scope.addCard = function() {
-  //   var newCard = $scope.cards[Math.floor(Math.random() * $scope.cards.length)];
-  //   newCard.id = Math.random();
-  //   $scope.cards.push(angular.extend({}, newCard));
-  //   cardDestroyed(newCard);
-  //   console.log("newcard");
-  //   console.log(newCard);
-  // };
-
-
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
   };
 
+  var likeref = new Firebase("https://project-timber.firebaseio.com/likes");
 
-  var ref = new Firebase("https://project-timber.firebaseio.com/likes");
-
-  $scope.likes = $firebaseArray(ref);
-  var currentuserId = localStorageService.get("userID");
+  $scope.likes = $firebaseArray(likeref);
 
   //new likes/ dislikes
   $scope.addNewLikes = function(item) {
-    console.log(item);
+    // console.log(item);
     $scope.likes.$add(
       { 
         userId: currentuserId,//current user's own id
@@ -331,11 +319,12 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         like: true
       }
     )
+    console.log($scope.likes);
   };
 
   //new likes/ dislikes
   $scope.addNewDisLikes = function(item) {
-    console.log(item);
+    // console.log(item);
     $scope.likes.$add(
       { 
         userId: currentuserId,//current user's own id
@@ -344,13 +333,12 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         like: false
       }
     )
+    console.log($scope.likes);
   };
 
   $scope.cardSwipedLeft = function(index) {
     console.log('LEFT SWIPE');
     var item = $scope.cards[index];
-    console.log("check item left");
-    console.log(item);
     $scope.addNewDisLikes(item);
     $scope.cardDestroyed(index);
   };
@@ -358,15 +346,21 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
     var item = $scope.cards[index];
-    console.log("check item right");
+    console.log("item i likes");
     console.log(item);
     $scope.addNewLikes(item);
+    $scope.likes.$loaded().then(function() {
+      var match = _.filter($scope.likes, function(like) {
+        return like.ownerId === currentuserId;
+      });
+      console.log("should be getting item which is liked by others in return");
+      console.log(match);
+      if (match.length !== 0){
+        console.log("Match!");
+
+      }
+    });
+
     $scope.cardDestroyed(index);
   };
-
-
 })
-
-.controller('CardCtrl', function($scope, TDCardDelegate, $firebaseArray) {
-
-});
