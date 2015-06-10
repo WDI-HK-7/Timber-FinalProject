@@ -94,7 +94,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         userId: $scope.userId,
         itemName: newItemName,
         itemDescription: newItemDescription,
-        ownerName: userName,
+        ownerName: $scope.userName,
         imageUrl: "http://placehold.it/200x200"
       }
     ).then(function() {
@@ -223,7 +223,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 // })
 
 .controller('CardsCtrl', function($scope, TDCardDelegate, $firebaseArray, localStorageService, $ionicPopup) {
-
   $scope.showConfirm = function() {
     var confirmPopup = $ionicPopup.confirm({
       title: 'It\'s a Match!',
@@ -252,7 +251,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     });
   });
 
-  $scope.cards = Array.prototype.slice.call($scope.cards, 0);
+  // $scope.cards = Array.prototype.slice.call($scope.cards, 0);
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
