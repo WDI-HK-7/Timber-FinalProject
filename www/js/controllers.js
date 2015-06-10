@@ -377,13 +377,15 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   var currentuserId = localStorageService.get("userID");
   var userName = localStorageService.get("userName");
 
+  var ref = new Firebase("https://project-timber.firebaseio.com/matches");
+
   var matchref = new Firebase("https://project-timber.firebaseio.com/matches/" + $stateParams.itemsId);
   syncObject = $firebaseObject(matchref);
   syncObject.$bindTo($scope, "item");
   console.log("hihi");
   console.log(syncObject);
 
-  matchref.orderByChild("ownerId").equalTo(currentuserId).on('value', function(resources){
+  ref.orderByChild("ownerId").equalTo(currentuserId).on('value', function(resources){
     var arrayOtherLikesMine = [];
     var newResources = resources.val();
     console.log("Match list also like item");
