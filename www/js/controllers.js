@@ -56,6 +56,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
               provider: authData.provider,
               name: authData.facebook.displayName
             });
+            $scope.closeModalFBLogin();
             $state.go('tab.swipe');
             // routeTo();
             localStorageService.set("userID", authData.uid);
