@@ -198,29 +198,29 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 
 })
 
-// .controller('ChatsCtrl', function($scope, Chats) {  
-//   $scope.chats = Chats.all();
-//   $scope.remove = function(chat) {
-//     Chats.remove(chat);
-//   }
-// })
+.controller('ChatsCtrl', function($scope, Chats) {  
+  $scope.chats = Chats.all();
+  $scope.remove = function(chat) {
+    Chats.remove(chat);
+  }
+})
 
-// .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-//   $scope.chat = Chats.get($stateParams.chatId);
-// })
+.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+  $scope.chat = Chats.get($stateParams.chatId);
+})
 
-// .directive('noScroll', function($document) {
+.directive('noScroll', function($document) {
 
-//   return {
-//     restrict: 'A',
-//     link: function($scope, $element, $attr) {
+  return {
+    restrict: 'A',
+    link: function($scope, $element, $attr) {
 
-//       $document.on('touchmove', function(e) {
-//         e.preventDefault();
-//       });
-//     }
-//   }
-// })
+      $document.on('touchmove', function(e) {
+        e.preventDefault();
+      });
+    }
+  }
+})
 
 .controller('CardsCtrl', function($scope, TDCardDelegate, $firebaseArray, localStorageService, $ionicPopup) {
   $scope.showConfirm = function() {
@@ -289,7 +289,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     console.log('LEFT SWIPE');
     var item = $scope.cards[index];
     $scope.addNewDisLikes(item);
-    $scope.cardDestroyed(index);
+    // $scope.cardDestroyed(index);
   };
 
   var arrayItemILike = [];
@@ -314,7 +314,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
 
           $scope.matches = $firebaseArray(matchref);
-          console.log("testinggggg");
           $scope.addNewMatches = function(item) {
             $scope.matches.$add(
               { 
@@ -344,17 +343,59 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   var currentuserId = localStorageService.get("userID");
   var userName = localStorageService.get("userName");
 
-  //print at match page
-  var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
-  var matches = $firebaseArray(matchref);
+  //like ref
+  // var likeref = new Firebase("https://project-timber.firebaseio.com/likes");
+  // var likes = $firebaseArray(likeref);
+  // //keep listening to likes and store matches in matches database
+  var arrayMyMatches = [];
+  // likes.$loaded().then(function() {
+  //   arrayMyMatches = _.filter(likes, function(){
+  //     return item.userId !== currentuserId;
+  //   });
+  //   $scope.itemsGroups = _.chunk(matches, 3);
+  // });
+
+  //ref
+  // var itemref = new Firebase("https://project-timber.firebaseio.com/items");
+  // var items = $firebaseArray(itemref);
+
+  // items.$loaded().then(function() {
+  //   $scope.cards = _.filter(items, function(item) {
+  //     console.log(item.userId !== currentuserId);
+  //     return item.userId !== currentuserId;
+  //   });
+  // });
+
+  //store arrayItemILike in database-matches
+
+  //ref
+  // var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
+
+  //   $scope.matches = $firebaseArray(matchref);
+  //   $scope.addNewMatches = function(item) {
+  //     $scope.matches.$add(
+  //       { 
+  //         userId: currentuserId,
+  //         ownerId: item.userId,
+  //         ownerName: item.ownerName,
+  //         itemId: item.$id,
+  //         itemimageUrl: item.imageUrl,
+  //         itemName: item.itemName,
+  //         itemDescription: item.itemDescription
+  //       }
+  //     )
+  //   };
 
   //old one which get all matches
   // matches.$loaded().then(function() {
   //   $scope.itemsGroups = _.chunk(matches, 3);
   // });
-  
+
+  //print at match page
+  var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
+  var matches = $firebaseArray(matchref);
+
   matchref.orderByChild("userId").equalTo(currentuserId).on('value', function(resources){
-    var arrayMyMatches = [];
     var newResources = resources.val();
     for (var key in newResources) {
       var newResource  = newResources[key];
