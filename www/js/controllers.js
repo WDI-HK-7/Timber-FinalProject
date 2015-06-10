@@ -31,7 +31,9 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 
   //SignIn
   $scope.signIn = function(){
+
     refFB.authWithOAuthPopup("facebook", function(error, authData) {
+
       if (error) {
         console.log("Login Failed!", error);
       } else {
@@ -42,8 +44,8 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
               provider: authData.provider,
               name: authData.facebook.displayName
             });
-            $scope.closeModalFBLogin();
             $state.go('tab.swipe');
+            $scope.closeModalFBLogin();
             localStorageService.set("userID", authData.uid);
           }
         });
@@ -150,6 +152,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   var ref = new Firebase("https://project-timber.firebaseio.com/items/" + $stateParams.itemId);
   syncObject = $firebaseObject(ref);
   syncObject.$bindTo($scope, "item");
+  console.log(syncObject);
   $scope.itemName = "";
   $scope.itemDescription = "";
 
@@ -365,27 +368,14 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 
 .controller('MatchCtrl', function($scope,$location, $stateParams, $firebaseObject, $state) {
 
-  var matchref = new Firebase("https://project-timber.firebaseio.com/matches" + $stateParams.itemId);
-  console.log("checking stateparams id");
-  console.log($stateParams.$id);
-
+  var matchref = new Firebase("https://project-timber.firebaseio.com/matches/" + $stateParams.itemsId);
   syncObject = $firebaseObject(matchref);
   syncObject.$bindTo($scope, "item");
+  console.log("hihi");
+  console.log(syncObject);
 
 
   $scope.ToChats = function(){
     // $state.go('tab.chats');
   }
 })
-
-
-//  $scope.toYourItem = function(item){    
-//     $location.path('/tab/profile/'+ item.id);
-//   }
-
-//   .controller('YourItemProfileCtrl', function($scope,$location, $stateParams, $ionicModal, $firebaseObject, $ionicPopup, $timeout, $state) {
-
-//   var ref = new Firebase("https://project-timber.firebaseio.com/items/" + $stateParams.itemId);
-//   syncObject = $firebaseObject(ref);
-//   syncObject.$bindTo($scope, "item");
-// }
