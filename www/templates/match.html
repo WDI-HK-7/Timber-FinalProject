@@ -5,9 +5,9 @@
         <div class="item item-text-wrap">
           <div class="col-offset-8">
             <img ng-src="">
-            <h3>Owner Name: </h3>
-            <h3>Item Name: </h3>
-            <h3>Item Description: </h3>
+            <h3>Owner's name</h3>
+            <h3>{{ item.itemName }}</h3>
+            <h3>{{ item.itemDescription }} </h3>
             <!-- <img ng-src="{{items[matchId].picture}}" width="400px" height="400px">
             <h3>Owner Name: {{items[matchId].ownerName}}</h3>
             <h3>Item Name: {{items[matchId].itemName}}</h3>
@@ -19,7 +19,7 @@
     <h4>Owner has also liked following items of yours...</h4>
     <div ng-repeat="itemsGroup in itemsGroups">
       <div class="row">
-        <div class="col col-33" ng-repeat="item in itemsGroup" ng-click="toYourItem(item)">
+        <div class="col col-33" ng-repeat="item in itemsGroup">
           {{  item.$id }}
           {{  item.itemName }}
           {{  item.itemDescription }}

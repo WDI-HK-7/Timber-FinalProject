@@ -27,20 +27,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     $scope.slideIndex = index;
   };
 
-  // $scope.LoginConfirm = function() {
-  //   var alertPopup = $ionicPopup.alert({
-  //    title: 'Hi, you are signed in',
-  //    template: 'You may now close this window'
-  //   });
-  //   alertPopup.then(function(res) {
-  //   console.log('Thank you close signin alert');
-  //  });
-  // };
-
-  function routeTo() {
-    window.location.href = '#/tab/swipe';
-  }
-
   var refFB = new Firebase("https://project-timber.firebaseio.com");
 
   //SignIn
@@ -58,7 +44,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
             });
             $scope.closeModalFBLogin();
             $state.go('tab.swipe');
-            // routeTo();
             localStorageService.set("userID", authData.uid);
           }
         });
@@ -156,24 +141,15 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   $scope.closeModalNewItem = function() {
     $scope.modal.hide();
   }
-  
-  $scope.doSave = function() {
-
-  }
 
 })
 
-.controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
-
-
-})
 
 .controller('YourItemProfileCtrl', function($scope,$location, $stateParams, $ionicModal, $firebaseObject, $ionicPopup, $timeout, $state) {
 
   var ref = new Firebase("https://project-timber.firebaseio.com/items/" + $stateParams.itemId);
   syncObject = $firebaseObject(ref);
   syncObject.$bindTo($scope, "item");
-
   $scope.itemName = "";
   $scope.itemDescription = "";
 
@@ -265,7 +241,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   items.$loaded().then(function() {
     $scope.cards = _.filter(items, function(item) {
       console.log(item.userId !== currentuserId);
-      // console.log($scope.cards);
       return item.userId !== currentuserId;
     });
   });
@@ -282,7 +257,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 
   //new likes/ dislikes
   $scope.addNewLikes = function(item) {
-    // console.log(item);
     $scope.likes.$add(
       { 
         userId: currentuserId,//current user's own id
@@ -291,12 +265,10 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         like: true
       }
     )
-    // console.log($scope.likes);
   };
 
   //new likes/ dislikes
   $scope.addNewDisLikes = function(item) {
-    // console.log(item);
     $scope.likes.$add(
       { 
         userId: currentuserId,//current user's own id
@@ -305,7 +277,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         like: false
       }
     )
-    // console.log($scope.likes);
   };
 
   $scope.cardSwipedLeft = function(index) {
@@ -362,41 +333,59 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 })
 
 .controller('MatchesCtrl', function($scope, $location, $ionicModal, $firebaseArray, $state, $stateParams, localStorageService) {
-
-   //get matches items
-  // ref.orderByChild("userId").equalTo(userId).on('value', function(resources){
-  //   console.log(resources.val());
-
-  //   var arrayMyItem = [];
-  //   var newResources = resources.val();
-  //   for (var key in newResources) {
-  //     var newResource  = newResources[key];
-  //     newResource.id = key;
-  //     arrayMyItem.push(newResource);
-  //   }
-  //   $scope.itemsGroups = _.chunk(arrayMyItem, 3);
-  //   console.log(arrayMyItem);
-  // });
   
+  var currentuserId = localStorageService.get("userID");
+
+  //print at match page
   var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
   var matches = $firebaseArray(matchref);
-  matches.$loaded().then(function() {
-    $scope.itemsGroups = _.chunk(matches, 3);
-  });
+
+  //old one which get all matches
+  // matches.$loaded().then(function() {
+  //   $scope.itemsGroups = _.chunk(matches, 3);
+  // });
   
+  matchref.orderByChild("userId").equalTo(currentuserId).on('value', function(resources){
+    var arrayMyMatches = [];
+    var newResources = resources.val();
+    for (var key in newResources) {
+      var newResource  = newResources[key];
+      newResource.id = key;
+      arrayMyMatches.push(newResource);
+    }
+    console.log("new resources should be array of array");
+    console.log(arrayMyMatches);
+    $scope.itemsGroups = _.chunk(arrayMyMatches, 3);
+  });
 
   $scope.toMatch = function(item){
-    $location.path('tab/matches/'+ item.id);
+    $location.path('tab/matches/'+ item.id);//matchid
   }
 })
 
-.controller('MatchCtrl', function($scope,$location, $stateParams) {
+.controller('MatchCtrl', function($scope,$location, $stateParams, $firebaseObject, $state) {
 
-  $scope.matchId = $stateParams.itemsId;
-  $scope.DisplayMatch = function($stateParams){
-    $stateParams.itemsId
-  }
+  var matchref = new Firebase("https://project-timber.firebaseio.com/matches" + $stateParams.itemId);
+  console.log("checking stateparams id");
+  console.log($stateParams.$id);
+
+  syncObject = $firebaseObject(matchref);
+  syncObject.$bindTo($scope, "item");
+
+
   $scope.ToChats = function(){
-    $location.path('tab/chats');
+    // $state.go('tab.chats');
   }
 })
+
+
+//  $scope.toYourItem = function(item){    
+//     $location.path('/tab/profile/'+ item.id);
+//   }
+
+//   .controller('YourItemProfileCtrl', function($scope,$location, $stateParams, $ionicModal, $firebaseObject, $ionicPopup, $timeout, $state) {
+
+//   var ref = new Firebase("https://project-timber.firebaseio.com/items/" + $stateParams.itemId);
+//   syncObject = $firebaseObject(ref);
+//   syncObject.$bindTo($scope, "item");
+// }
