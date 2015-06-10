@@ -119,8 +119,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
           newResource.id = key;
           arrayMyItem.push(newResource);
         }
-        $scope.itemsGroups = _.chunk(arrayMyItem, 3);
-        console.log(arrayMyItem);
       });
     });
   };
@@ -319,7 +317,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         like: true
       }
     )
-    console.log($scope.likes);
+    // console.log($scope.likes);
   };
 
   //new likes/ dislikes
@@ -333,7 +331,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         like: false
       }
     )
-    console.log($scope.likes);
+    // console.log($scope.likes);
   };
 
   $scope.cardSwipedLeft = function(index) {
@@ -343,22 +341,29 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     $scope.cardDestroyed(index);
   };
 
+  var arrayItemILike = [];
+
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
     var item = $scope.cards[index];
     console.log("item i likes");
-    console.log(item);
+    console.log(item);//item i like
     $scope.addNewLikes(item);
     $scope.likes.$loaded().then(function() {
       var match = _.filter($scope.likes, function(like) {
         return like.ownerId === currentuserId;
       });
       console.log("should be getting item which is liked by others in return");
-      console.log(match);
+      console.log(match);//item which is like by other
       if (match.length !== 0){
         console.log("Match!");
-
+        //post item i like into the match page
+        //push items i like into an array
+        arrayItemILike.push(item);
       }
+        console.log("print the item i like array");
+        console.log(arrayItemILike);
+        $scope.itemsGroups = _.chunk(arrayItemILike, 3);
     });
 
     $scope.cardDestroyed(index);
