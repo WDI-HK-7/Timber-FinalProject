@@ -56,8 +56,8 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
               provider: authData.provider,
               name: authData.facebook.displayName
             });
-            // $state.go('tab.swipe');
-            routeTo();
+            $state.go('tab.swipe');
+            // routeTo();
             localStorageService.set("userID", authData.uid);
           }
         });
@@ -138,13 +138,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
     console.log(arrayMyItem);
   });
 
-
-  //OLD get items
-  // $scope.items.$loaded().then(function(resources) {
-  //   console.log("old one");
-  //   console.log(resources);
-  // });
-
   //view each item
   $scope.toYourItem = function(item){    
     $location.path('/tab/profile/'+ item.id);
@@ -173,19 +166,6 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 
 .controller('PopupCtrl',function($scope, $ionicPopup, $timeout) {
 
-  $scope.showConfirm = function() {
-    var confirmPopup = $ionicPopup.confirm({
-      title: 'It\'s a Match!',
-      template: 'Wilson also likes one of your items!'
-    });
-    confirmPopup.then(function(res) {
-      if(res) {
-        console.log('You are sure');
-      } else {
-        console.log('You are not sure');
-      }
-    });
-  };
 
 })
 
@@ -280,7 +260,21 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
 //   }
 // })
 
-.controller('CardsCtrl', function($scope, TDCardDelegate, $firebaseArray, localStorageService) {
+.controller('CardsCtrl', function($scope, TDCardDelegate, $firebaseArray, localStorageService, $ionicPopup) {
+
+  $scope.showConfirm = function() {
+    var confirmPopup = $ionicPopup.confirm({
+      title: 'It\'s a Match!',
+      template: 'Owner also likes one of your items!'
+    });
+    confirmPopup.then(function(res) {
+      if(res) {
+        console.log('You are sure');
+      } else {
+        console.log('You are not sure');
+      }
+    });
+  };
 
   $scope.cards = [];
   var currentuserId = localStorageService.get("userID");
@@ -357,6 +351,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
       console.log(match);//item which is like by other
       if (match.length !== 0){
         console.log("Match!");
+        $scope.showConfirm();
         //post item i like into the match page
         //push items i like into an array
         arrayItemILike.push(item);
