@@ -8,7 +8,7 @@
   </ion-header-bar>
 
   <ion-content>
-    <form ng-submit="editOneItem(itemName, itemDescription)">
+    <form ng-submit="editOneItem(itemName, itemDescription, itemImage)">
       <div class="list">
         <label class="item item-input">
           <span class="input-label">Item Name</span>
@@ -21,7 +21,7 @@
         <label class="item">
           <button class="button button-block button-stable">Re-upload Image</button>
           <div class="col-offset-15">
-            <img ng-src="itemImage" width="320px" height="320px">
+            <img ng-src="{{item.imageUrl}}" width="320px" height="320px">
           </div>
         </label>
         <label class="item">
