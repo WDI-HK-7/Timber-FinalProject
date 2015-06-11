@@ -95,7 +95,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
         itemName: newItemName,
         itemDescription: newItemDescription,
         ownerName: $scope.userName,
-        imageUrl: "http://placehold.it/200x200"
+        imageUrl: "http://thefancy-media-ec6.thefancy.com/1280/20150506/885221566277747406_29bd6727c6cc.jpg"
       }
     ).then(function() {
       ref.orderByChild("userId").equalTo($scope.userId).on('value', function(resources){
@@ -160,9 +160,10 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
   $scope.itemDescription = "";
 
   //edit item
-  $scope.editOneItem = function(itemName, itemDescription) {
+  $scope.editOneItem = function(itemName, itemDescription, itemImage) {
     $scope.item.itemName = itemName;
     $scope.item.itemDescription = itemDescription; 
+    $scope.item.imageUrl = itemImage; 
   }
 
   $ionicModal.fromTemplateUrl('templates/edit-item.html', {

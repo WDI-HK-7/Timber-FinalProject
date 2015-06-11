@@ -11,10 +11,7 @@
   <div ng-repeat="itemsGroup in itemsGroups">
     <div class="row">
       <div class="col col-33" ng-repeat="item in itemsGroup" ng-click="toYourItem(item)">
-        {{  item.$id }}
-        {{  item.itemName }}
-        {{  item.itemDescription }}
-        {{  item.userId }}
+        <img ng-src= "{{ item.imageUrl}}">
       </div>
     </div>
   </div>
