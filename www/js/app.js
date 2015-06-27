@@ -40,7 +40,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
   })
 
   .state('tab.itemprofile', {
-    url: "/profile/:itemsId",
+    url: "/profile/:itemId",
     views: {
       'tab-profile':{
         templateUrl: "templates/item-profile.html",
@@ -74,7 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-swipe': {
         templateUrl: 'templates/tab-swipe.html',
-        controller: 'SwipeCtrl'
+        controller: 'CardsCtrl'
       }
     }
   })
@@ -99,6 +99,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     }
   });
 
-  $urlRouterProvider.otherwise('/tab/swipe');
+  $urlRouterProvider.otherwise('/');
 
 });

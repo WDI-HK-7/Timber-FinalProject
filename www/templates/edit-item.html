@@ -8,25 +8,24 @@
   </ion-header-bar>
 
   <ion-content>
-    <form ng-submit="doSave()">
+    <form ng-submit="editOneItem(itemName, itemDescription, itemImage)">
       <div class="list">
         <label class="item item-input">
-          <span class="input-label">Item Name</span>{{items[matchId].itemName}}
-          <input type="text">
+          <span class="input-label">Item Name</span>
+          <input type="text" ng-model="itemName">
         </label>
         <label class="item item-input">
-          <span class="input-label">Item Description</span>
-          {{items[matchId].itemDescription}}
-          <input type="text">
+          <span class="input-label">Item Description</span> 
+          <input type="text" ng-model="itemDescription">
         </label>
         <label class="item">
           <button class="button button-block button-stable">Re-upload Image</button>
           <div class="col-offset-15">
-            <img ng-src="{{items[matchId].picture}}" width="320px" height="320px">
+            <img ng-src="{{item.imageUrl}}" width="320px" height="320px">
           </div>
         </label>
         <label class="item">
-          <button class="button button-block button-positive" type="submit">Save</button>
+          <button class="button button-block button-positive" type="submit" ng-click="closeModalEditItem()">Save</button>
         </label>
       </div>
     </form>

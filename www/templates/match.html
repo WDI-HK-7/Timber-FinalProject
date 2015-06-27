@@ -1,36 +1,25 @@
 <ion-view view-title="Match">
   <ion-content>
-    <!-- <div ng-controller="MatchDisplayCtrl"> -->
-      <div class="card">
-        <div class="item item-text-wrap">
-          <div class="col-offset-8">
-            <img ng-src="{{items[matchId].picture}}"
-             width="400px" height="400px">
-            <h3>Owner Name: {{items[matchId].ownerName}}</h3>
-            <h3>Item Name: {{items[matchId].itemName}}</h3>
-            <h3>Item Description: {{items[matchId].itemDescription}}</h3>
-          </div>
+    <div class="card">
+      <div class="item item-text-wrap">
+        <div class="col-offset-8">
+          <img ng-src="{{ item.itemimageUrl}}">
+          <h3>{{ item.ownerName }}</h3>
+          <h3>{{ item.itemName }}</h3>
+          <h3>{{ item.itemDescription }} </h3>
         </div>
       </div>
-    <!-- </div> -->
-    <h4>Owner has also liked following items of yours...</h4>
-    <div ng-repeat="item in items track by $index" ng-if="$index % 3 === 0">
+    </div>
+    <h4>{{ item.ownerName }} has also liked following items of yours...</h4>
+    <div ng-repeat="itemsGroup in itemsGroups">
       <div class="row">
-        <div class="col col-33">
-          <img ng-src="{{items[$index].picture}}" width="140px" height="140px">
-        </div>
-
-        <div class="col col-33">
-          <img ng-src="{{items[$index+1].picture}}" width="140px" height="140px">
-        </div>
-
-        <div class="col col-33">
-          <img ng-src="{{items[$index+2].picture}}" width="140px" height="140px">
+        <div class="col col-33" ng-repeat="item in itemsGroup">
+          <img ng-src="{{ item.itemimageUrl}}">
         </div>
       </div>
     </div>
 
-    <button class="button button-balanced" ng-click="ToChats()">
+    <button class="button button-balanced button-block" ng-click="ToChats()">
       Contact Owner
     </button>
 

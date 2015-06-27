@@ -4,20 +4,25 @@
     <div class="card">
       <div class="item item-text-wrap">
         <div class="col-offset-8">
-          <img ng-src="{{items[matchId].picture}}"
-           width="400px" height="400px">
-           <br>
-          <h2>Item Name:</h2><h2 class="info-content">{{items[matchId].itemName}}</h2>
-          <h2>Item Description:</h2><h2 class="info-content">{{items[matchId].itemDescription}}</h2>
+          <img ng-src="{{ item.imageUrl}}">
+          <br>
+          <h2 class="info-content">
+            {{ item.itemName }}
+          </h2>
+          <h2 class="info-content">
+            {{ item.itemDescription }}
+          </h2>
         </div>
       </div>
     </div>
 
-    <button class="button button-block button-positive" ng-click="editItem()">Edit</button>
+    <button class="button button-block button-positive" ng-click="editItem()">
+      Edit
+    </button>
 
-    <div ng-controller="PopupCtrl">
-      <button class="button button-block button-assertive" ng-click="confirmDelete()">Delete</button>
-    </div>
+    <button class="button button-block button-assertive" ng-click="confirmDelete()">
+      Delete
+    </button>
 
   </ion-content>
 </ion-view>
