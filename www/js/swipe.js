@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
 
-.controller('CardsCtrl', function($scope, TDCardDelegate, $firebaseArray, localStorageService, $ionicPopup) {
+.controller('CardsCtrl', function($scope, TDCardDelegate, $firebaseArray, localStorageService, $ionicPopup, $firebaseObject) {
   $scope.showConfirm = function() {
     var confirmPopup = $ionicPopup.confirm({
       title: 'It\'s a Match!',
@@ -16,31 +16,37 @@ angular.module('starter.controllers')
   };
 
   $scope.cards = [];
+  $scope.likes = [];
+
   var currentuserId = localStorageService.get("userID");
   var userName = localStorageService.get("userName");
 
   var itemref = new Firebase("https://project-timber.firebaseio.com/items");
   var items = $firebaseArray(itemref);
 
+  var likeref = new Firebase("https://project-timber.firebaseio.com/likes");
+  $scope.likes = $firebaseArray(likeref);
+
   items.$loaded().then(function() {
     $scope.cards = _.filter(items, function(item) {
-      console.log(item.userId !== currentuserId);
-      return item.userId !== currentuserId;
+      console.log((item.userId !== currentuserId) && (item.likeUserId !== currentuserId) && (item.dislikeUserId !== currentuserId));
+      return ((item.userId !== currentuserId) && (item.likeUserId !== currentuserId) && (item.dislikeUserId !== currentuserId));
     });
   });
-
-  // $scope.cards = Array.prototype.slice.call($scope.cards, 0);
 
   $scope.cardDestroyed = function(index) {
     $scope.cards.splice(index, 1);
   };
 
-  var likeref = new Firebase("https://project-timber.firebaseio.com/likes");
-
-  $scope.likes = $firebaseArray(likeref);
-
   //new likes/ dislikes
   $scope.addNewLikes = function(item) {
+
+    var itemRef = new Firebase("https://project-timber.firebaseio.com/items/" + item.$id);
+
+      itemRef.update({
+        likeUserId: currentuserId
+      })
+
     $scope.likes.$add(
       { 
         userId: currentuserId,//current user's own id
@@ -54,6 +60,13 @@ angular.module('starter.controllers')
 
   //new likes/ dislikes
   $scope.addNewDisLikes = function(item) {
+
+    var itemRef = new Firebase("https://project-timber.firebaseio.com/items/" + item.$id);
+
+      itemRef.update({
+        dislikeUserId: currentuserId
+      })
+
     $scope.likes.$add(
       { 
         userId: currentuserId,//current user's own id

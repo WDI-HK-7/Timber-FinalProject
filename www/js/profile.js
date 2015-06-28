@@ -21,7 +21,9 @@ angular.module('starter.controllers')
         itemName: newItemName,
         itemDescription: newItemDescription,
         ownerName: $scope.userName,
-        imageUrl: "http://thefancy-media-ec6.thefancy.com/1280/20150506/885221566277747406_29bd6727c6cc.jpg"
+        imageUrl: "http://thefancy-media-ec6.thefancy.com/1280/20150506/885221566277747406_29bd6727c6cc.jpg",
+        likeUserId: "",
+        dislikeUserId: ""
       }
     ).then(function() {
       ref.orderByChild("userId").equalTo($scope.userId).on('value', function(resources){
