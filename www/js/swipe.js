@@ -33,11 +33,7 @@ angular.module('starter.controllers')
       return ((item.userId !== currentuserId) && (item.likeUserId !== currentuserId) && (item.dislikeUserId !== currentuserId));
     });
   });
-
-  $scope.cardDestroyed = function(index) {
-    $scope.cards.splice(index, 1);
-  };
-
+  
   //new likes/ dislikes
   $scope.addNewLikes = function(item) {
 
@@ -76,6 +72,10 @@ angular.module('starter.controllers')
         like: false
       }
     )
+  };
+
+  $scope.cardDestroyed = function(index) {
+    $scope.cards.splice(index, 1);
   };
 
   $scope.cardSwipedLeft = function(index) {
@@ -129,4 +129,5 @@ angular.module('starter.controllers')
     });
     $scope.cardDestroyed(index);
   };
+
 })
