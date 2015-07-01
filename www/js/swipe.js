@@ -50,6 +50,8 @@ angular.module('starter.controllers')
         ownerName: item.ownerName,
         itemId: item.$id,
         itemName: item.itemName,
+        itemimageUrl: item.imageUrl,
+        itemDescription: item.itemDescription,
         like: true
       }
     )
@@ -71,6 +73,8 @@ angular.module('starter.controllers')
         ownerName: item.ownerName,
         itemId: item.$id,
         itemName: item.itemName,
+        itemimageUrl: item.imageUrl,
+        itemDescription: item.itemDescription,
         like: false
       }
     )
@@ -96,13 +100,17 @@ angular.module('starter.controllers')
     console.log(item);//item i like
     $scope.addNewLikes(item);
     $scope.likes.$loaded().then(function() {
+
       var match = _.filter($scope.likes, function(like) {
         return like.ownerId === currentuserId;
       });
-      console.log("should be getting item which is liked by others in return");
-      console.log(match);//item which is like by other
+
       if (match.length !== 0){
         console.log("Match!");
+        console.log("should be getting item which is liked by others in return");
+        console.log(match);//item which is like by other    
+        // console.log(match[0].itemDescription);  
+        // console.log(match.length);
         $scope.showConfirm();
 
         //store arrayItemILike in database-matches
@@ -118,12 +126,33 @@ angular.module('starter.controllers')
               itemId: item.$id,
               itemimageUrl: item.imageUrl,
               itemName: item.itemName,
-              itemDescription: item.itemDescription
+              itemDescription: item.itemDescription,
+              like: true
             }
           )
         };
         $scope.addNewMatches(item);
         arrayItemILike.push(item);
+
+        //Recipricate: update the other guy's matches collection
+        for (var i=0; i<match.length; i++){
+          //do check here to make sure no repeat
+          $scope.addNewMatches2 = function(match) {
+            $scope.matches.$add(
+              { 
+                userId: match.userId,
+                ownerId: currentuserId,
+                ownerName: userName,
+                itemId: match.itemId,
+                itemimageUrl: match.itemimageUrl,
+                itemName: match.itemName,
+                itemDescription: match.itemDescription,
+                like: true
+              }
+            )
+          };
+          $scope.addNewMatches2(match[i]);
+        };
 
         //update matchUserId in users collection
         var userIDRef = new Firebase("https://project-timber.firebaseio.com/users/" + currentuserId);
@@ -141,8 +170,8 @@ angular.module('starter.controllers')
           matchUserName: userName
         })
       }
-        console.log("print the item i like array");
-        console.log(arrayItemILike);
+      console.log("print the item i like array");
+      console.log(arrayItemILike);
 
     });
     $scope.cardDestroyed(index);
