@@ -47,6 +47,7 @@ angular.module('starter.controllers')
       { 
         userId: currentuserId,//current user's own id
         ownerId: item.userId,//owner's id
+        ownerName: item.ownerName,
         itemId: item.$id,
         itemName: item.itemName,
         like: true
@@ -67,6 +68,7 @@ angular.module('starter.controllers')
       { 
         userId: currentuserId,//current user's own id
         ownerId: item.userId,//owner's id
+        ownerName: item.ownerName,
         itemId: item.$id,
         itemName: item.itemName,
         like: false
@@ -106,22 +108,38 @@ angular.module('starter.controllers')
         //store arrayItemILike in database-matches
         var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
 
-          $scope.matches = $firebaseArray(matchref);
-          $scope.addNewMatches = function(item) {
-            $scope.matches.$add(
-              { 
-                userId: currentuserId,
-                ownerId: item.userId,
-                ownerName: item.ownerName,
-                itemId: item.$id,
-                itemimageUrl: item.imageUrl,
-                itemName: item.itemName,
-                itemDescription: item.itemDescription
-              }
-            )
-          };
-          $scope.addNewMatches(item);
+        $scope.matches = $firebaseArray(matchref);
+        $scope.addNewMatches = function(item) {
+          $scope.matches.$add(
+            { 
+              userId: currentuserId,
+              ownerId: item.userId,
+              ownerName: item.ownerName,
+              itemId: item.$id,
+              itemimageUrl: item.imageUrl,
+              itemName: item.itemName,
+              itemDescription: item.itemDescription
+            }
+          )
+        };
+        $scope.addNewMatches(item);
         arrayItemILike.push(item);
+
+        //update matchUserId in users collection
+        var userIDRef = new Firebase("https://project-timber.firebaseio.com/users/" + currentuserId);
+        userIDRef.update({
+          matchUserId: item.userId,
+          matchUserName: item.ownerName
+        })
+
+        //Recipricate: update the other guy's users collection
+
+        var userID2Ref = new Firebase("https://project-timber.firebaseio.com/users/" + item.userId);
+
+        userID2Ref.update({
+          matchUserId: currentuserId,
+          matchUserName: userName
+        })
       }
         console.log("print the item i like array");
         console.log(arrayItemILike);
