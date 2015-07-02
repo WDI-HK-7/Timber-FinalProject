@@ -92,7 +92,6 @@ angular.module('starter.controllers')
   };
 
   var arrayItemILike = [];
-  // var Import = true;
 
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
