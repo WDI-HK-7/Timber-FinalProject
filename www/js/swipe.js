@@ -92,6 +92,7 @@ angular.module('starter.controllers')
   };
 
   var arrayItemILike = [];
+  // var Import = true;
 
   $scope.cardSwipedRight = function(index) {
     console.log('RIGHT SWIPE');
@@ -99,24 +100,24 @@ angular.module('starter.controllers')
     console.log("item i likes");
     console.log(item);//item i like
     $scope.addNewLikes(item);
+
     $scope.likes.$loaded().then(function() {
 
       var match = _.filter($scope.likes, function(like) {
-        return like.ownerId === currentuserId;
+        return like.ownerId === currentuserId && like.like === true;
       });
 
       if (match.length !== 0){
         console.log("Match!");
         console.log("should be getting item which is liked by others in return");
         console.log(match);//item which is like by other    
-        // console.log(match[0].itemDescription);  
-        // console.log(match.length);
         $scope.showConfirm();
 
         //store arrayItemILike in database-matches
         var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
 
         $scope.matches = $firebaseArray(matchref);
+
         $scope.addNewMatches = function(item) {
           $scope.matches.$add(
             { 
@@ -134,22 +135,45 @@ angular.module('starter.controllers')
         $scope.addNewMatches(item);
         arrayItemILike.push(item);
 
+
         //Recipricate: update the other guy's matches collection
+        var arrayMatchItemLiked = [];
+        
         for (var i=0; i<match.length; i++){
-          //do check here to make sure no repeat
           $scope.addNewMatches2 = function(match) {
-            $scope.matches.$add(
-              { 
-                userId: match.userId,
-                ownerId: currentuserId,
-                ownerName: userName,
-                itemId: match.itemId,
-                itemimageUrl: match.itemimageUrl,
-                itemName: match.itemName,
-                itemDescription: match.itemDescription,
-                like: true
+            matchref.orderByChild('itemId').equalTo(match.itemId).on('value', function(resources){
+              console.log(resources.val());
+
+              var newResources = resources.val();
+              for (var key in newResources) {
+                var newResource  = newResources[key];
+                newResource.id = key;
+                arrayMatchItemLiked.push(newResource);
               }
-            )
+              console.log(arrayMatchItemLiked);
+
+              var itemIds = _.pluck(arrayMatchItemLiked, 'itemId');
+              var Bool =  itemIds.indexOf(match.itemId);
+              console.log(itemIds);
+              console.log($scope.matches);
+              console.log(match.itemId);
+              console.log(Bool);
+              if (Bool === -1){
+
+                $scope.matches.$add(
+                  { 
+                    userId: match.userId,
+                    ownerId: currentuserId,
+                    ownerName: userName,
+                    itemId: match.itemId,
+                    itemimageUrl: match.itemimageUrl,
+                    itemName: match.itemName,
+                    itemDescription: match.itemDescription,
+                    like: true
+                  }
+                )
+              } 
+            })
           };
           $scope.addNewMatches2(match[i]);
         };
@@ -176,5 +200,4 @@ angular.module('starter.controllers')
     });
     $scope.cardDestroyed(index);
   };
-
 })
