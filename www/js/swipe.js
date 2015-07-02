@@ -47,8 +47,11 @@ angular.module('starter.controllers')
       { 
         userId: currentuserId,//current user's own id
         ownerId: item.userId,//owner's id
+        ownerName: item.ownerName,
         itemId: item.$id,
         itemName: item.itemName,
+        itemimageUrl: item.imageUrl,
+        itemDescription: item.itemDescription,
         like: true
       }
     )
@@ -67,8 +70,11 @@ angular.module('starter.controllers')
       { 
         userId: currentuserId,//current user's own id
         ownerId: item.userId,//owner's id
+        ownerName: item.ownerName,
         itemId: item.$id,
         itemName: item.itemName,
+        itemimageUrl: item.imageUrl,
+        itemDescription: item.itemDescription,
         like: false
       }
     )
@@ -93,41 +99,104 @@ angular.module('starter.controllers')
     console.log("item i likes");
     console.log(item);//item i like
     $scope.addNewLikes(item);
+
     $scope.likes.$loaded().then(function() {
+
       var match = _.filter($scope.likes, function(like) {
-        return like.ownerId === currentuserId;
+        return like.ownerId === currentuserId && like.like === true;
       });
-      console.log("should be getting item which is liked by others in return");
-      console.log(match);//item which is like by other
+
       if (match.length !== 0){
         console.log("Match!");
+        console.log("should be getting item which is liked by others in return");
+        console.log(match);//item which is like by other    
         $scope.showConfirm();
 
         //store arrayItemILike in database-matches
         var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
 
-          $scope.matches = $firebaseArray(matchref);
-          $scope.addNewMatches = function(item) {
-            $scope.matches.$add(
-              { 
-                userId: currentuserId,
-                ownerId: item.userId,
-                ownerName: item.ownerName,
-                itemId: item.$id,
-                itemimageUrl: item.imageUrl,
-                itemName: item.itemName,
-                itemDescription: item.itemDescription
-              }
-            )
-          };
-          $scope.addNewMatches(item);
+        $scope.matches = $firebaseArray(matchref);
+
+        $scope.addNewMatches = function(item) {
+          $scope.matches.$add(
+            { 
+              userId: currentuserId,
+              ownerId: item.userId,
+              ownerName: item.ownerName,
+              itemId: item.$id,
+              itemimageUrl: item.imageUrl,
+              itemName: item.itemName,
+              itemDescription: item.itemDescription,
+              like: true
+            }
+          )
+        };
+        $scope.addNewMatches(item);
         arrayItemILike.push(item);
+
+
+        //Recipricate: update the other guy's matches collection
+        var arrayMatchItemLiked = [];
+        
+        for (var i=0; i<match.length; i++){
+          $scope.addNewMatches2 = function(match) {
+            matchref.orderByChild('itemId').equalTo(match.itemId).on('value', function(resources){
+              console.log(resources.val());
+
+              var newResources = resources.val();
+              for (var key in newResources) {
+                var newResource  = newResources[key];
+                newResource.id = key;
+                arrayMatchItemLiked.push(newResource);
+              }
+              console.log(arrayMatchItemLiked);
+
+              var itemIds = _.pluck(arrayMatchItemLiked, 'itemId');
+              var Bool =  itemIds.indexOf(match.itemId);
+              console.log(itemIds);
+              console.log($scope.matches);
+              console.log(match.itemId);
+              console.log(Bool);
+              if (Bool === -1){
+
+                $scope.matches.$add(
+                  { 
+                    userId: match.userId,
+                    ownerId: currentuserId,
+                    ownerName: userName,
+                    itemId: match.itemId,
+                    itemimageUrl: match.itemimageUrl,
+                    itemName: match.itemName,
+                    itemDescription: match.itemDescription,
+                    like: true
+                  }
+                )
+              } 
+            })
+          };
+          $scope.addNewMatches2(match[i]);
+        };
+
+        //update matchUserId in users collection
+        var userIDRef = new Firebase("https://project-timber.firebaseio.com/users/" + currentuserId);
+        userIDRef.update({
+          matchUserId: item.userId,
+          matchUserName: item.ownerName
+        })
+
+        //Recipricate: update the other guy's users collection
+
+        var userID2Ref = new Firebase("https://project-timber.firebaseio.com/users/" + item.userId);
+
+        userID2Ref.update({
+          matchUserId: currentuserId,
+          matchUserName: userName
+        })
       }
-        console.log("print the item i like array");
-        console.log(arrayItemILike);
+      console.log("print the item i like array");
+      console.log(arrayItemILike);
 
     });
     $scope.cardDestroyed(index);
   };
-
 })

@@ -29,6 +29,6 @@ angular.module('starter.controllers')
   });
 
   $scope.ToChats = function(){
-    // $state.go('tab.chats');
+    $state.go('tab.chats');
   }
 })

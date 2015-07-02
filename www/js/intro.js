@@ -42,7 +42,9 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
           if (authData) {
             refFB.child("users").child(authData.uid).set({
               provider: authData.provider,
-              name: authData.facebook.displayName
+              name: authData.facebook.displayName,
+              matchUserId: "",
+              matchUserName: ""
             });
             $state.go('tab.swipe');
             $scope.closeModalFBLogin();
