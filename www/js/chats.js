@@ -22,21 +22,22 @@ angular.module('starter.controllers')
     var arrayChat = [];
 
     $scope.addNewChatUser = function(user){
-      // chatref.orderByChild('toUserId').equalTo(user.matchUserId).on('value', function(resources){
-      //   console.log(resources.val());
-        // var newResources = resources.val();
-        // for (var key in newResources) {
-        //   var newResource  = newResources[key];
-        //   newResource.id = key;
-        //   arrayChat.push(newResource);
-        // }
+      chatref.orderByChild('toUserId').equalTo(user.matchUserId).on('value', function(resources){
+        console.log(resources.val());
+        var newResources = resources.val();
+        for (var key in newResources) {
+          var newResource  = newResources[key];
+          newResource.id = key;
+          arrayChat.push(newResource);
+        }
 
-        // console.log(arrayChat);
+        console.log(arrayChat);
 
-        // var userIds = _.pluck(arrayChat,'toUserId');
-        // var Bool = userIds.indexOf(chatUser.matchUserId);
+        var userIds = _.pluck(arrayChat,'toUserId');
+        var Bool = userIds.indexOf(user.matchUserId);
+        console.log(Bool);
 
-        // if (Bool === -1){
+        if (Bool === -1){
           $scope.chats.$add(
             {
               fromUser: userName,
@@ -46,8 +47,8 @@ angular.module('starter.controllers')
               text:""
             }
           )
-        // }
-      // })
+        }
+      })
     };
     $scope.addNewChatUser(chatUser[0]);
     //Recipricate: the other guy should be able to start chatting as well
