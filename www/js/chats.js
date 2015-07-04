@@ -1,6 +1,6 @@
 angular.module('starter.controllers')
 
-.controller('ChatsCtrl', function($scope, Chats, $firebaseObject, $firebaseArray, localStorageService) { 
+.controller('ChatsCtrl', function($scope, $firebaseObject, $firebaseArray, localStorageService) { 
 
   var currentuserId = localStorageService.get("userID");
   var userName = localStorageService.get("userName");
@@ -8,16 +8,31 @@ angular.module('starter.controllers')
 
   var userref = new Firebase("https://project-timber.firebaseio.com/users");
   $scope.users = $firebaseArray(userref);
-  console.log($scope.users);
+
+  var chatref = new Firebase("https://project-timber.firebaseio.com/chats");
+  $scope.chats = $firebaseArray(chatref);
+  
+
+  var myChatList = [];
+  //get user's chat contact
+  chatref.orderByChild('fromUserId').equalTo(currentuserId).on('value', function(resources){
+    console.log(resources.val());
+    var newResources = resources.val();
+    for (var key in newResources) {
+      var newResource  = newResources[key];
+      newResource.id = key;
+      myChatList.push(newResource);
+    }
+    $scope.chats = myChatList;
+    console.log(myChatList);
+  });
 
   $scope.users.$loaded().then(function(){
     var chatUser = _.filter($scope.users, function(user){
       console.log(user.$id === currentuserId)
       return (user.$id === currentuserId);
     })
-    var chatref = new Firebase("https://project-timber.firebaseio.com/chats");
-    $scope.chats = $firebaseArray(chatref);
-    console.log(chatUser);
+
 
     var arrayChat = [];
 
@@ -44,19 +59,18 @@ angular.module('starter.controllers')
               fromUserId: currentuserId,
               toUser: user.matchUserName,
               toUserId: user.matchUserId,
-              text:""
+              text:"",
+              toUserImage: user.userImage
             }
           )
         }
       })
     };
     $scope.addNewChatUser(chatUser[0]);
-    //Recipricate: the other guy should be able to start chatting as well
+
   })
 
-
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  }
+  // $scope.remove = function(chat) {
+  //   Chats.remove(chat);
+  // }
 })
