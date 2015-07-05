@@ -44,6 +44,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
             var arrayMyMatch = [];
             var matchref = new Firebase("https://project-timber.firebaseio.com/matches");
             var matches = $firebaseArray(matchref);
+            console.log(matches.length);
 
             matchref.orderByChild("userId").equalTo(authData.uid).on('value', function(resources){
               var newResources = resources.val();
@@ -52,16 +53,26 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
                 newResource.id = key;
                 arrayMyMatch.push(newResource);
               }
-              console.log(arrayMyMatch);
-            });
+              console.log(arrayMyMatch.length);
+              if (arrayMyMatch.length === 0){
+                refFB.child("users").child(authData.uid).set({
 
-            refFB.child("users").child(authData.uid).set({
+                  provider: authData.provider,
+                  name: authData.facebook.displayName,
+                  matchUserId: "",
+                  matchUserName: "",
+                  userImage: "http://www.lovehkfilm.com/people/st9999/kaneshiro_takeshi_1.jpg"
+                })
+              }else{
+                refFB.child("users").child(authData.uid).set({
 
-              provider: authData.provider,
-              name: authData.facebook.displayName,
-              matchUserId: arrayMyMatch[0].ownerId,
-              matchUserName: arrayMyMatch[0].ownerName,
-              userImage: "http://www.lovehkfilm.com/people/st9999/kaneshiro_takeshi_1.jpg"
+                  provider: authData.provider,
+                  name: authData.facebook.displayName,
+                  matchUserId: arrayMyMatch[0].ownerId,
+                  matchUserName: arrayMyMatch[0].ownerName,
+                  userImage: "http://www.lovehkfilm.com/people/st9999/kaneshiro_takeshi_1.jpg"
+                })
+              }
             });
             
             $state.go('tab.swipe');
