@@ -11,10 +11,8 @@ angular.module('starter.controllers')
 
   var chatref = new Firebase("https://project-timber.firebaseio.com/chats");
   $scope.chats = $firebaseArray(chatref);
-  
 
   var myChatList = [];
-  //get user's chat contact
   chatref.orderByChild('fromUserId').equalTo(currentuserId).on('value', function(resources){
     console.log(resources.val());
     var newResources = resources.val();
@@ -23,7 +21,7 @@ angular.module('starter.controllers')
       newResource.id = key;
       myChatList.push(newResource);
     }
-    $scope.chats = myChatList;
+    $scope.chatContacts = myChatList;
     console.log(myChatList);
   });
 
