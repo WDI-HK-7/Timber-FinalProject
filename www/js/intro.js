@@ -45,7 +45,7 @@ angular.module('starter.controllers', ['ionic','ionic.contrib.ui.tinderCards','f
               name: authData.facebook.displayName,
               matchUserId: "facebook:10155593949455858",
               matchUserName: "Victoria Li",
-              userImage: "http://postimg.org/image/rlj4wuzpd/"
+              userImage: "http://www.lovehkfilm.com/people/st9999/kaneshiro_takeshi_1.jpg"
             });
             $state.go('tab.swipe');
             $scope.closeModalFBLogin();
