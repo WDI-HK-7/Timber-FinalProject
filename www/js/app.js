@@ -74,7 +74,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     views: {
       'tab-swipe': {
         templateUrl: 'templates/tab-swipe.html',
-        // cache: false,
+        cache: false,
         controller: 'CardsCtrl'
       }
     }

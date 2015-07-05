@@ -39,7 +39,7 @@ angular.module('starter.controllers')
     $scope.addNewChatUser = function(user){
       var chatref = new Firebase("https://project-timber.firebaseio.com/chats");
       $scope.chats = $firebaseArray(chatref);
-      
+
       chatref.orderByChild('toUserId').equalTo(user.matchUserId).on('value', function(resources){
         console.log(resources.val());
         var newResources = resources.val();
@@ -62,7 +62,6 @@ angular.module('starter.controllers')
               fromUserId: currentuserId,
               toUser: user.matchUserName,
               toUserId: user.matchUserId,
-              text:"",
               toUserImage: user.userImage
             }
           )
