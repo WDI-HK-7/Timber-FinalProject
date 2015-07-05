@@ -8,36 +8,43 @@ angular.module('starter.controllers')
   var userref = new Firebase("https://project-timber.firebaseio.com/users");
   $scope.users = $firebaseArray(userref);
 
+  // var chatDetailRef = new Firebase("https://project-timber.firebaseio.com/chatsDetails");
+  // $scope.chatsDetails = $firebaseArray(chatDetailRef);
+
+  // var allChats = [];
+
+  // chatDetailRef.on("value",function(resources){
+  //   console.log(resources.val());
+  //   var newResources = resources.val();
+  //   for (var key in newResources) {
+  //     var newResource  = newResources[key];
+  //     newResource.id = key;
+  //     allChats.push(newResource);
+  //   }
+  //   console.log(allChats);
+
+  //   var cleanChats = [];
+  //   var unique = {};
+
+  //   allChats.forEach(function(chat){
+  //     if (!unique[chat.timestamp]){
+  //       cleanChats.push(chat);
+  //       unique[chat.timestamp] = chat;
+  //     }
+  //   })
+  //   console.log(cleanChats);
+  //   $scope.chatsDetails = cleanChats;
+
+  // });
+
   var chatDetailRef = new Firebase("https://project-timber.firebaseio.com/chatsDetails");
-  $scope.chatsDetails = $firebaseArray(chatDetailRef);
+    $scope.chatsDetails = $firebaseArray(chatDetailRef);
 
-  var allChats = [];
-  var cleanChats = [];
-  var unique = {};
-
-  chatDetailRef.on("value",function(resources){
-    console.log(resources.val());
-    var newResources = resources.val();
-    for (var key in newResources) {
-      var newResource  = newResources[key];
-      newResource.id = key;
-      allChats.push(newResource);
-    }
-    console.log(allChats);
-
-    allChats.forEach(function(chat){
-      if (!unique[chat.timestamp]){
-        cleanChats.push(chat);
-        unique[chat.timestamp] = chat;
-      }
-    })
-    $scope.chatsDetails = cleanChats;
-
-  });
+    $scope.chatsDetails.$loaded();
   
   $scope.users.$loaded().then(function(){
     var chatUserDetail = _.filter($scope.users, function(user){
-      console.log(user.$id === currentuserId)
+      console.log(user.$id === currentuserId);
       return (user.$id === currentuserId);
     })
 
@@ -61,5 +68,4 @@ angular.module('starter.controllers')
       )
     }
   })
-
 })

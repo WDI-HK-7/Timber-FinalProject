@@ -72,7 +72,4 @@ angular.module('starter.controllers')
 
   })
 
-  // $scope.remove = function(chat) {
-  //   Chats.remove(chat);
-  // }
 })
