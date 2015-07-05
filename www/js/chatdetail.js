@@ -8,28 +8,58 @@ angular.module('starter.controllers')
   var userref = new Firebase("https://project-timber.firebaseio.com/users");
   $scope.users = $firebaseArray(userref);
 
-   var chatDetailRef = new Firebase("https://project-timber.firebaseio.com/chatsDetails");
-  $scope.chatsDetail = $firebaseArray(chatDetailRef);
+  var chatDetailRef = new Firebase("https://project-timber.firebaseio.com/chatsDetails");
+  $scope.chatsDetails = $firebaseArray(chatDetailRef);
+
+  var allChats = [];
+  var cleanChats = [];
+  var unique = {};
+
+  chatDetailRef.on("value",function(resources){
+    console.log(resources.val());
+    var newResources = resources.val();
+    for (var key in newResources) {
+      var newResource  = newResources[key];
+      newResource.id = key;
+      allChats.push(newResource);
+    }
+    console.log(allChats);
+
+    allChats.forEach(function(chat){
+      if (!unique[chat.timestamp]){
+        cleanChats.push(chat);
+        unique[chat.timestamp] = chat;
+      }
+    })
+    $scope.chatsDetails = cleanChats;
+
+  });
   
   $scope.users.$loaded().then(function(){
-    var chatUser = _.filter($scope.users, function(user){
+    var chatUserDetail = _.filter($scope.users, function(user){
       console.log(user.$id === currentuserId)
       return (user.$id === currentuserId);
     })
 
-    console.log(chatUser);
+    console.log(chatUserDetail);
 
-    $scope.addNewChatDetails = function(user){
-      $scope.chatsDetail.$add(
+    $scope.addNewChatDetails = function(newMessage){
+
+    var chatDetailRef = new Firebase("https://project-timber.firebaseio.com/chatsDetails");
+    $scope.chatsDetails = $firebaseArray(chatDetailRef);
+
+      $scope.chatsDetails.$add(
         {
           fromUser: userName,
           fromUserId: currentuserId,
-          toUser: user.matchUserName,
-          toUserId: user.matchUserId,
-          toUserImage: user.userImage,
-          text:""
+          toUser: chatUserDetail[0].matchUserName,
+          toUserId: chatUserDetail[0].matchUserId,
+          toUserImage: chatUserDetail[0].userImage,
+          text: newMessage,
+          timestamp: Firebase.ServerValue.TIMESTAMP
         }
       )
     }
   })
+
 })
