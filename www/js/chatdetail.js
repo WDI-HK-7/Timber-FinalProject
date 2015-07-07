@@ -52,8 +52,8 @@ angular.module('starter.controllers')
 
     $scope.addNewChatDetails = function(newMessage){
 
-    var chatDetailRef = new Firebase("https://project-timber.firebaseio.com/chatsDetails");
-    $scope.chatsDetails = $firebaseArray(chatDetailRef);
+      var chatDetailRef = new Firebase("https://project-timber.firebaseio.com/chatsDetails");
+      $scope.chatsDetails = $firebaseArray(chatDetailRef);
 
       $scope.chatsDetails.$add(
         {

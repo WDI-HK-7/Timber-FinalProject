@@ -12,11 +12,11 @@
           <ul class="chatbox">
               <!-- We output the messages -->
               <li ng-repeat="chatsDetail in chatsDetails">
-              {{chatsDetail.fromUser}}:{{chatsDetail.text}}
+              {{chatsDetail.fromUser}}: {{chatsDetail.text}}
               </li>
           </ul>
         </div>
-        <form name="myform" ng-submit="addNewChatDetails(nMessage)">
+        <form name="myform" ng-submit="addNewChatDetails(nMessage); nMessage = ''">
           <label class="item item-input message-input">
             <input type="text" ng-model="nMessage" placeholder="Type your message..."
             />
