@@ -192,6 +192,7 @@ angular.module('starter.controllers')
           matchUserId: currentuserId,
           matchUserName: userName
         })
+
       }
       console.log("print the item i like array");
       console.log(arrayItemILike);
